@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/01/17 19:40:29 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/01/17 19:57:30 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,12 +45,13 @@ LD_FLAGS		=	-std=gnu99 \
 SRC_C_FILES		=	hook_functions.c close_win.c release_mlx_win.c
 SRC_H_FILES		=	ex.h
 
-# Path folders for H, C and O files
+# Path folders for H, C, O and APP files
 H_FILES			=	$(addprefix $(INCLUDE)/, $(SRC_H_FILES))
 C_FILES			=	$(addprefix $(SRC)/, $(SRC_C_FILES))
 C_FILES			+=	$(addprefix $(SRC)/, $(patsubst %, %.c, $(NAMES)))
 O_FILES			=	$(addprefix $(OBJ)/, $(patsubst %.c, %.o, $(SRC_C_FILES)))
 MAIN_FILES		=	$(addprefix $(SRC)/, $(patsubst %, %.c, $(NAMES)))
+APP_FILES		=	$(addprefix $(BIN)/, $(NAMES))
 
 # Colours for printouts
 RED				=	\033[0;31m
@@ -58,10 +59,10 @@ GREEN			=	\033[0;32m
 YELLOW			=	\033[0;33m
 END				=	\033[0m
 
-all: $(FOLDERS) $(C_FILES) libraries $(NAMES) norm
+all: $(FOLDERS) $(C_FILES) libraries $(APP_FILES) norm
 	@echo "$(GREEN)Done!$(END)"
 
-$(NAMES): %: $(SRC)/%.c $(H_FILES) $(O_FILES) Makefile
+$(APP_FILES): $(BIN)/%: $(SRC)/%.c $(H_FILES) $(O_FILES) Makefile
 	$(CC) -o $@ $< $(O_FILES) $(LD_FLAGS) $(C_FLAGS)
 
 $(O_FILES): $(OBJ)/%.o: $(SRC)/%.c $(H_FILES) Makefile
@@ -77,7 +78,7 @@ libraries:
 	@make -C ${LIB}
 
 run:
-	./$(NAME) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
+	$(BIN)/$(NAME) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
 
 clean:
 #	@make -C ${LIB} clean
