@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/17 20:57:32 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/17 21:47:15 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 # define EX_H
 # include "mlx.h"
 # include "ft_printf.h"
+
+typedef struct	s_position
+{
+	int			x;
+	int			y;
+}				t_position;
 
 typedef enum	e_render_action
 {
@@ -23,11 +29,14 @@ typedef enum	e_render_action
 
 typedef struct	s_image
 {
+	void		*empty_img;
 	void		*img;
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
+	t_position	current_position;
+	t_position	next_position;
 }				t_image;
 
 typedef struct	s_mlx_win

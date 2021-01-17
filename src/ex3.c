@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:33:41 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/17 21:00:06 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/17 22:03:41 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,19 @@
 static int		render_next_frame(t_mlx_win *mlx_win)
 {
 	static int		cnt = 0;
+	t_image			*image;
 
 	cnt++;
 	if (mlx_win->render_action == e_put_image_to_window)
 	{
 		ft_printf("Frame rendering function call: %d!\n", cnt);
-		mlx_put_image_to_window(mlx_win->mlx, mlx_win->win,
-												mlx_win->image->img, 20, 20);
+		image = mlx_win->image;
+		if (image->current_position.x != -1 && image->current_position.y != -1)
+			mlx_put_image_to_window(mlx_win->mlx, mlx_win->win, image->empty_img,
+						image->current_position.x, image->current_position.y);
+		mlx_put_image_to_window(mlx_win->mlx, mlx_win->win, image->img,
+								image->next_position.x, image->next_position.y);
+		image->current_position = image->next_position;
 		mlx_win->render_action = e_no_action;
 	}
 	return (0);
@@ -56,9 +62,14 @@ static t_image	*create_img(t_mlx_win *mlx_win)
 	int			i;
 
 	image = (t_image *)ft_memalloc(sizeof(*image));
+	image->next_position.x = 20;
+	image->next_position.y = 20;
+	image->current_position.x = -1;
+	image->current_position.y = -1;
+	image->empty_img = mlx_new_image(mlx_win->mlx, 10, 10);
 	image->img = mlx_new_image(mlx_win->mlx, 10, 10);
 	image->addr = mlx_get_data_addr(image->img, &(image->bits_per_pixel),
-										&(image->line_length), &(image->endian));
+									&(image->line_length), &(image->endian));
 	i = -1;
 	while (++i < 10)
 		img_mlx_pixel_put(image, i, i, 0x00FF0000);
