@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/18 05:17:50 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/18 12:44:03 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static t_elem_size	*set_element_size(void)
 	t_elem_size		*elem_size;
 
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
-	elem_size->x = 50;
-	elem_size->y = 50;
-	elem_size->z = 50;
+	elem_size->x = 150;
+	elem_size->y = 150;
+	elem_size->z = 150;
 	return (elem_size);
 }
 
@@ -58,7 +58,11 @@ t_element			*create_element(t_mlx_win *mlx_win)
 {
 	t_element	*element;
 	int			i;
+	int			x_len;
+	int			y_len;
 
+	x_len = 200;
+	y_len = 200;
 	element = (t_element *)ft_memalloc(sizeof(*element));
 	element->elem_size = set_element_size();
 	element->elem_positions = set_elem_positions(element->elem_size);
@@ -67,8 +71,8 @@ t_element			*create_element(t_mlx_win *mlx_win)
 	element->next_position.y = 20;
 	element->current_position.x = -1;
 	element->current_position.y = -1;
-	element->empty_img = mlx_new_image(mlx_win->mlx, 10, 10);
-	element->img = mlx_new_image(mlx_win->mlx, 10, 10);
+	element->empty_img = mlx_new_image(mlx_win->mlx, x_len, y_len);
+	element->img = mlx_new_image(mlx_win->mlx, x_len, y_len);
 	element->addr = mlx_get_data_addr(element->img, &(element->bits_per_pixel),
 								&(element->line_length), &(element->endian));
 	i = -1;

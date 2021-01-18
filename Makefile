@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/01/18 05:17:19 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/01/18 12:35:18 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,7 @@ libraries:
 	@make -C ${LIB}
 
 run:
-	$(BIN)/$(NAME) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
+	valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all $(BIN)/$(NAME_4) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
 
 clean:
 #	@make -C ${LIB} clean
