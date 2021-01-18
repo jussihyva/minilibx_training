@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/01/17 19:57:30 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/01/18 05:17:19 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ endif
 NAME_1			=	ex1
 NAME_2			=	ex2
 NAME_3			=	ex3
-NAMES			=	$(NAME_1) $(NAME_2) $(NAME_3)
+NAME_4			=	ex4
+NAMES			=	$(NAME_1) $(NAME_2) $(NAME_3) $(NAME_4)
 
 # Folders
 LIB				=	lib
@@ -39,10 +40,13 @@ CC				=	clang
 C_FLAGS			=	-g -Wall -Wextra -Werror $(INCLUDES)
 LD_FLAGS		=	-std=gnu99 \
 					-Llib \
-					-lftprintf -lft -lmlx_Linux -lGLEW -lglfw -lGL -lm -lXext -lX11
+					-lftprintf -lft -lmlx_Linux -lGLEW -lglfw -lGL \
+					-lm -lXext -lX11
 
 # C (Source code) and H (Header) files
-SRC_C_FILES		=	hook_functions.c close_win.c release_mlx_win.c
+SRC_C_FILES		=	hook_functions.c close_win.c release_mlx_win.c \
+					render_frame.c create_element.c mlx_image_pixel_put.c \
+					initialize_window.c set_elem_positions.c
 SRC_H_FILES		=	ex.h
 
 # Path folders for H, C, O and APP files

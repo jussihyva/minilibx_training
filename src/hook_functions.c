@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/17 21:49:14 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/18 03:53:34 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@ int		key_press(int keycode, t_mlx_win *mlx_win)
 		close_win(mlx_win);
 	else if (keycode == 0x31)
 	{
-		mlx_win->image->next_position.x =
-										mlx_win->image->current_position.x + 20;
-		mlx_win->image->next_position.y =
-										mlx_win->image->current_position.y + 20;
+		mlx_win->element->next_position.x =
+									mlx_win->element->current_position.x + 20;
+		mlx_win->element->next_position.y =
+									mlx_win->element->current_position.y + 20;
 		mlx_win->render_action = e_put_image_to_window;
 	}
 	else

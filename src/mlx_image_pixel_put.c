@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ex3.c                                              :+:      :+:    :+:   */
+/*   mlx_image_pixel_put.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/01/17 19:33:41 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/18 03:57:24 by jkauppi          ###   ########.fr       */
+/*   Created: 2021/01/18 03:38:09 by jkauppi           #+#    #+#             */
+/*   Updated: 2021/01/18 03:50:20 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
 
-int				main(void)
+void		mlx_image_pixel_put(t_element *element, int x, int y, int color)
 {
-	t_mlx_win	*mlx_win;
+	char	*img_ptr;
 
-	mlx_win = (t_mlx_win *)ft_memalloc(sizeof(*mlx_win));
-	mlx_win->render_action = e_no_action;
-	mlx_win->mlx = mlx_init();
-	initialize_window(mlx_win, "Minilibx training 3 (ex3)");
-	mlx_win->element = create_element(mlx_win);
-	mlx_loop_hook(mlx_win->mlx, render_frame, mlx_win);
-	mlx_loop(mlx_win->mlx);
-	release_mlx_win(&mlx_win);
-	return (0);
+	img_ptr = element->addr + (y * element->line_length +
+											x * (element->bits_per_pixel / 8));
+	*(unsigned int *)img_ptr = color;
+	return ;
 }
