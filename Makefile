@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
+#    By: juhani <juhani@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/01/18 12:35:18 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/01/21 23:12:20 by juhani           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ				=	obj
 SRC				=	src
 INCLUDE			=	include
 FOLDERS			=	$(LIB) $(BIN) $(DATA) $(OBJ) $(SRC) $(INCLUDE)
-INCLUDES		=	-I $(INCLUDE) -I $(LIB)
+INCLUDES		=	-I $(INCLUDE) -I $(LIB) -I $(LIB)/minilibx-linux
 
 # Compiler and linking parameters
 CC				=	clang
@@ -46,7 +46,8 @@ LD_FLAGS		=	-std=gnu99 \
 # C (Source code) and H (Header) files
 SRC_C_FILES		=	hook_functions.c close_win.c release_mlx_win.c \
 					render_frame.c create_element.c mlx_image_pixel_put.c \
-					initialize_window.c set_elem_positions.c
+					initialize_window.c set_elem_positions.c \
+					elemental_rotation.c draw_element_lines.c
 SRC_H_FILES		=	ex.h
 
 # Path folders for H, C, O and APP files
@@ -63,7 +64,7 @@ GREEN			=	\033[0;32m
 YELLOW			=	\033[0;33m
 END				=	\033[0m
 
-all: $(FOLDERS) $(C_FILES) libraries $(APP_FILES) norm
+all: $(FOLDERS) $(C_FILES) libraries $(APP_FILES)
 	@echo "$(GREEN)Done!$(END)"
 
 $(APP_FILES): $(BIN)/%: $(SRC)/%.c $(H_FILES) $(O_FILES) Makefile

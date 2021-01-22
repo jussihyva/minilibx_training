@@ -4,5 +4,6 @@
 		"include/**",
 		"src/**",
 		"lib/**"
-	]
+	],
+	"editor.insertSpaces": false
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_element.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/18 12:44:03 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/22 12:42:59 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_elem_size	*set_element_size(void)
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
 	elem_size->x = 150;
 	elem_size->y = 150;
-	elem_size->z = 150;
+	elem_size->z = 450;
 	return (elem_size);
 }
 
@@ -54,21 +54,23 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 	return (elem_lines);
 }
 
-t_element			*create_element(t_mlx_win *mlx_win)
+t_element			*create_element(t_mlx_win *mlx_win,
+													t_position *start_position)
 {
 	t_element	*element;
 	int			i;
 	int			x_len;
 	int			y_len;
 
-	x_len = 200;
-	y_len = 200;
+	x_len = 600;
+	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
 	element->elem_size = set_element_size();
-	element->elem_positions = set_elem_positions(element->elem_size);
+	element->elem_positions = set_elem_positions(element->elem_size,
+																start_position);
 	element->elem_lines = set_elem_lines(element->elem_positions);
-	element->next_position.x = 20;
-	element->next_position.y = 20;
+	element->next_position.x = start_position->x + 20;
+	element->next_position.y = start_position->y + 20;
 	element->current_position.x = -1;
 	element->current_position.y = -1;
 	element->empty_img = mlx_new_image(mlx_win->mlx, x_len, y_len);

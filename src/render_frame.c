@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_frame.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
+/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:31:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/18 03:53:14 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/01/22 12:29:13 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,16 @@ int		render_frame(t_mlx_win *mlx_win)
 	if (mlx_win->render_action == e_put_image_to_window)
 	{
 		ft_printf("Frame rendering function call: %d!\n", cnt);
-		element = mlx_win->element;
+		element = mlx_win->element1;
+		if (element->current_position.x != -1 &&
+											element->current_position.y != -1)
+			mlx_put_image_to_window(mlx_win->mlx, mlx_win->win,
+								element->empty_img, element->current_position.x,
+												element->current_position.y);
+		mlx_put_image_to_window(mlx_win->mlx, mlx_win->win, element->img,
+							element->next_position.x, element->next_position.y);
+		element->current_position = element->next_position;
+		element = mlx_win->element2;
 		if (element->current_position.x != -1 &&
 											element->current_position.y != -1)
 			mlx_put_image_to_window(mlx_win->mlx, mlx_win->win,
