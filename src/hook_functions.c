@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/22 12:43:46 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 20:52:15 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int		key_press(int keycode, t_mlx_win *mlx_win)
 	{
 		if (mlx_win->render_action == e_no_action)
 		{
+			element1->degree->x += RADIAN(5);
+			element2->degree->x += RADIAN(5);
 			z_elemental_rotation(element1);
 			z_elemental_rotation(element2);
 			ft_printf("Offset: %0.2f %0.2f %0.2f\n",

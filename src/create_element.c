@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/22 12:42:59 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 21:43:12 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 }
 
 t_element			*create_element(t_mlx_win *mlx_win,
-													t_position *start_position)
+								t_position *start_position, t_position *degree)
 {
 	t_element	*element;
 	int			i;
@@ -65,9 +65,12 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	x_len = 600;
 	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
+	element->degree = (t_position *)ft_memalloc(sizeof(*degree));
 	element->elem_size = set_element_size();
+	ft_memcpy(element->degree, degree, sizeof(*degree));
 	element->elem_positions = set_elem_positions(element->elem_size,
 																start_position);
+	z_elemental_rotation(element);
 	element->elem_lines = set_elem_lines(element->elem_positions);
 	element->next_position.x = start_position->x + 20;
 	element->next_position.y = start_position->y + 20;
@@ -80,6 +83,5 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	i = -1;
 	while (++i < 10)
 		mlx_image_pixel_put(element, i, i, 0x00FF0000);
-	mlx_win->render_action = e_put_image_to_window;
 	return (element);
 }

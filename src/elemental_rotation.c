@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/01/22 12:41:21 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 21:00:07 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,8 @@ static double	neg_sin(double nbr)
 	return (-sin(nbr));
 }
 
-static void		z_rotation(t_position *elem_position)
+static void		z_rotation(t_position *elem_position, double degree)
 {
-	double			degree;
 	t_position		new_elem_position;
 	double			new_value;
 	static double	(*function[3][3])(double) = {{cos, neg_sin, d_zero},
@@ -40,7 +39,6 @@ static void		z_rotation(t_position *elem_position)
 
 	ft_printf("Old values: %0.2f %0.2f %0.2f\n", elem_position->x,
 											elem_position->y, elem_position->z);
-	degree = RADIAN(5);
 	new_value = (*function[0][0])(degree) * elem_position->x;
 	new_value += (*function[0][1])(degree) * elem_position->y;
 	new_value += (*function[0][2])(degree) * elem_position->z;
@@ -69,7 +67,7 @@ void			z_elemental_rotation(t_element *element)
 	i = -1;
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
-		z_rotation(&(elem_positions[i]));
+		z_rotation(&(elem_positions[i]), element->degree->x);
 		ft_printf("New values: %0.2f %0.2f %0.2f\n", elem_positions[i].x,
 									elem_positions[i].y, elem_positions[i].z);
 		position_offset->x = MAX(position_offset->x, -elem_positions[i].x);

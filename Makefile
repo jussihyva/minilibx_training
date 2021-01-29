@@ -6,7 +6,7 @@
 #    By: juhani <juhani@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/01/21 23:12:20 by juhani           ###   ########.fr        #
+#    Updated: 2021/01/29 21:01:41 by juhani           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,8 @@ LD_FLAGS		=	-std=gnu99 \
 SRC_C_FILES		=	hook_functions.c close_win.c release_mlx_win.c \
 					render_frame.c create_element.c mlx_image_pixel_put.c \
 					initialize_window.c set_elem_positions.c \
-					elemental_rotation.c draw_element_lines.c
+					elemental_rotation.c draw_element_lines.c \
+					read_cmd_arguments.c
 SRC_H_FILES		=	ex.h
 
 # Path folders for H, C, O and APP files

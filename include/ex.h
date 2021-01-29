@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/22 12:46:24 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 21:04:14 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef struct	s_elem_line
 typedef struct	s_element
 {
 	t_elem_size	*elem_size;
+	t_position	*degree;
 	t_position	*elem_positions;
 	t_position	elem_position_offset;
 	t_elem_line	*elem_lines;
@@ -80,7 +81,8 @@ int				enter_notify(t_mlx_win *mlx_win);
 int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
-t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position);
+t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
+															t_position *degree);
 void			mlx_image_pixel_put(t_element *element, int x, int y,
 																	int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
@@ -89,5 +91,6 @@ t_position		*set_elem_positions(t_elem_size *elem_size,
 void			z_elemental_rotation(t_element *element);
 void			draw_lines(t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
+t_position		*read_cmd_arguments(int argc, char **argv);
 
 #endif
