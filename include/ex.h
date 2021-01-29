@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/29 21:04:14 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 23:08:37 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 
 typedef struct	s_position
 {
-	double		x;
-	double		y;
-	double		z;
+	int			x;
+	int			y;
+	int			z;
 }				t_position;
 
 typedef enum	e_render_action
@@ -50,8 +50,9 @@ typedef struct	s_elem_line
 typedef struct	s_element
 {
 	t_elem_size	*elem_size;
-	t_position	*degree;
+	t_position	*angle;
 	t_position	*elem_positions;
+	t_position	*elem_start_positions;
 	t_position	elem_position_offset;
 	t_elem_line	*elem_lines;
 	void		*empty_img;
@@ -60,6 +61,7 @@ typedef struct	s_element
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
+	t_position	start_position;
 	t_position	current_position;
 	t_position	next_position;
 }				t_element;
@@ -82,7 +84,7 @@ int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
 t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
-															t_position *degree);
+															t_position *angle);
 void			mlx_image_pixel_put(t_element *element, int x, int y,
 																	int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);

@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/29 21:43:12 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/29 23:09:50 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 }
 
 t_element			*create_element(t_mlx_win *mlx_win,
-								t_position *start_position, t_position *degree)
+								t_position *start_position, t_position *angle)
 {
 	t_element	*element;
 	int			i;
@@ -65,13 +65,19 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	x_len = 600;
 	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
-	element->degree = (t_position *)ft_memalloc(sizeof(*degree));
+	element->angle = (t_position *)ft_memalloc(sizeof(*angle));
 	element->elem_size = set_element_size();
-	ft_memcpy(element->degree, degree, sizeof(*degree));
+	ft_memcpy(element->angle, angle, sizeof(*angle));
 	element->elem_positions = set_elem_positions(element->elem_size,
 																start_position);
+	element->elem_start_positions = 
+			(t_position *)ft_memalloc(sizeof(*element->elem_start_positions) *
+														NUM_OF_ELEM_POSITIONS);
+	ft_memcpy(element->elem_start_positions, element->elem_positions,
+					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
 	z_elemental_rotation(element);
 	element->elem_lines = set_elem_lines(element->elem_positions);
+	ft_memcpy(&element->start_position, start_position, sizeof(*start_position));
 	element->next_position.x = start_position->x + 20;
 	element->next_position.y = start_position->y + 20;
 	element->current_position.x = -1;
