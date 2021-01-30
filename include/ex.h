@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/29 23:08:37 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 21:29:18 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # define NUM_OF_ELEM_POSITIONS		8
 # define RADIAN(x)					x * PI / 180
 # define MAX(x,y)					(x > y) ? x : y
+
+double	**g_z_rotation_matrix[360];
+int		g_z_is_rotation_matrix[360];
+double	**g_y_rotation_matrix[360];
+int		g_y_is_rotation_matrix[360];
+double	**g_x_rotation_matrix[360];
+int		g_x_is_rotation_matrix[360];
 
 typedef struct	s_position
 {
@@ -88,8 +95,7 @@ t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
 void			mlx_image_pixel_put(t_element *element, int x, int y,
 																	int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
-t_position		*set_elem_positions(t_elem_size *elem_size,
-													t_position *start_position);
+t_position		*set_elem_positions(t_elem_size *elem_size);
 void			z_elemental_rotation(t_element *element);
 void			draw_lines(t_element *element);
 void			set_position(t_position *position, int x, int y, int z);

@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/01/30 00:04:15 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 21:56:13 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,156 @@ static double	neg_sin(double nbr)
 	return (-sin(nbr));
 }
 
-static void		z_rotation(t_position *elem_position, double angle,
-													t_position start_position)
+static double	**get_z_rotation_matrix(int angle)
 {
-	t_position		new_elem_position;
-	double			new_value;
-	double			radian_angle;
-	static double	(*function[3][3])(double) = {{cos, neg_sin, d_zero},
-												{sin, cos, d_zero},
-												{d_zero, d_zero, d_one}};
+	static double	(*fn_z_rotation_matrix[3][3])(double) =
+													{{cos, neg_sin, d_zero},
+													{sin, cos, d_zero},
+													{d_zero, d_zero, d_one}};
+	double		**rotation_matrix;
+	double		radian_angle;
+	size_t		i;
+	size_t		j;
 
-	// ft_printf("Old values: %d %d %d\n", elem_position->x,
-	// 										elem_position->y, elem_position->z);
 	radian_angle = RADIAN(angle);
-	new_value = (*function[0][0])(radian_angle) * (elem_position->x - start_position.x);
-	new_value += (*function[0][1])(radian_angle) * (elem_position->y - start_position.y);
-	new_value += (*function[0][2])(radian_angle) * (elem_position->z - start_position.z);
-	new_elem_position.x = (int)(new_value + 0.5);
-	new_value = (*function[1][0])(radian_angle) * (elem_position->x - start_position.x);
-	new_value += (*function[1][1])(radian_angle) * (elem_position->y - start_position.y);
-	new_value += (*function[1][2])(radian_angle) * (elem_position->z - start_position.z);
-	new_elem_position.y = (int)(new_value + 0.5);
-	new_value = (*function[2][0])(radian_angle) * (elem_position->x - start_position.x);
-	new_value += (*function[2][1])(radian_angle) * (elem_position->y - start_position.y);
-	new_value += (*function[2][2])(radian_angle) * (elem_position->z - start_position.z);
-	new_elem_position.z = (int)(new_value + 0.5);
-	ft_memcpy(elem_position, &new_elem_position, sizeof(new_elem_position));
+	if (!g_z_is_rotation_matrix[angle])
+	{
+		g_z_rotation_matrix[angle] =
+						(double **)ft_memalloc(sizeof(*rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+			g_z_rotation_matrix[angle][i] =
+						(double *)ft_memalloc(sizeof(**rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+		{
+			j = -1;
+			while (++j < 3)
+				g_z_rotation_matrix[angle][i][j] +=
+									(*fn_z_rotation_matrix[i][j])(radian_angle);
+		}
+		g_z_is_rotation_matrix[angle] = 1;
+	}
+	rotation_matrix = g_z_rotation_matrix[angle];
+	return (rotation_matrix);
+}
+
+static double	**get_y_rotation_matrix(int angle)
+{
+	static double	(*fn_y_rotation_matrix[3][3])(double) =
+													{{cos, d_zero, sin},
+													{d_zero, d_one, d_zero},
+													{neg_sin, d_zero, cos}};
+	double		**rotation_matrix;
+	double		radian_angle;
+	size_t		i;
+	size_t		j;
+
+	if (!g_y_is_rotation_matrix[angle])
+	{
+		radian_angle = RADIAN(angle);
+		g_y_rotation_matrix[angle] =
+						(double **)ft_memalloc(sizeof(*rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+			g_y_rotation_matrix[angle][i] =
+						(double *)ft_memalloc(sizeof(**rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+		{
+			j = -1;
+			while (++j < 3)
+				g_y_rotation_matrix[angle][i][j] +=
+									(*fn_y_rotation_matrix[i][j])(radian_angle);
+		}
+		g_y_is_rotation_matrix[angle] = 1;
+		ft_printf("ANGLE: %d\n", angle);
+	}
+	rotation_matrix = g_y_rotation_matrix[angle];
+	return (rotation_matrix);
+}
+
+static double	**get_x_rotation_matrix(int angle)
+{
+	static double	(*fn_x_rotation_matrix[3][3])(double) =
+													{{d_one, d_zero, d_zero},
+													{d_zero, cos, neg_sin},
+													{d_zero, sin, cos}};
+	double		**rotation_matrix;
+	double		radian_angle;
+	size_t		i;
+	size_t		j;
+
+	if (!g_x_is_rotation_matrix[angle])
+	{
+		radian_angle = RADIAN(angle);
+		g_x_rotation_matrix[angle] =
+						(double **)ft_memalloc(sizeof(*rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+			g_x_rotation_matrix[angle][i] =
+						(double *)ft_memalloc(sizeof(**rotation_matrix) * 3);
+		i = -1;
+		while (++i < 3)
+		{
+			j = -1;
+			while (++j < 3)
+				g_x_rotation_matrix[angle][i][j] +=
+									(*fn_x_rotation_matrix[i][j])(radian_angle);
+		}
+		g_x_is_rotation_matrix[angle] = 1;
+		ft_printf("ANGLE: %d\n", angle);
+	}
+	rotation_matrix = g_x_rotation_matrix[angle];
+	return (rotation_matrix);
+}
+
+static void		matrix_vector_multiply(double **matrix, double *vector,
+															double *new_vector)
+{
+	size_t			i;
+	size_t			j;
+
+	i = -1;
+	while (++i < 3)
+	{
+		j = -1;
+		new_vector[i] = 0;
+		while (++j < 3)
+			new_vector[i] += matrix[i][j] * vector[j];
+	}
+	return ;
+}
+
+static void		rotation(t_position *elem_position, t_position *angle)
+{
+	double			elem_position_vector[3];
+	double			new_elem_position_vector[3];
+	double			**rotation_matrix;
+
+	elem_position_vector[0] = elem_position->x;
+	elem_position_vector[1] = elem_position->y;
+	elem_position_vector[2] = elem_position->z;
+	rotation_matrix = get_z_rotation_matrix(angle->x);
+	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+													new_elem_position_vector);
+	elem_position_vector[0] = new_elem_position_vector[0];
+	elem_position_vector[1] = new_elem_position_vector[1];
+	elem_position_vector[2] = new_elem_position_vector[2];
+
+	rotation_matrix = get_y_rotation_matrix(angle->z);
+	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+													new_elem_position_vector);
+	elem_position_vector[0] = new_elem_position_vector[0];
+	elem_position_vector[1] = new_elem_position_vector[1];
+	elem_position_vector[2] = new_elem_position_vector[2];
+
+	rotation_matrix = get_x_rotation_matrix(angle->y);
+	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+													new_elem_position_vector);
+	elem_position->x = (int)(new_elem_position_vector[0] + 0.5);
+	elem_position->y = (int)(new_elem_position_vector[1] + 0.5);
+	elem_position->z = (int)(new_elem_position_vector[2] + 0.5);
 	return ;
 }
 
@@ -72,12 +196,10 @@ void			z_elemental_rotation(t_element *element)
 	i = -1;
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
-		z_rotation(&(elem_positions[i]), element->angle->x, element->start_position);
-		// ft_printf("New values: %d %d %d\n", elem_positions[i].x,
-		// 							elem_positions[i].y, elem_positions[i].z);
-		position_offset->x = MAX(position_offset->x, -(elem_positions[i].x - element->start_position.x));
-		position_offset->y = MAX(position_offset->y, -(elem_positions[i].y - element->start_position.y));
-		position_offset->z = MAX(position_offset->z, -(elem_positions[i].z - element->start_position.z));
+		rotation(&(elem_positions[i]), element->angle);
+		position_offset->x = MAX(position_offset->x, -elem_positions[i].x);
+		position_offset->y = MAX(position_offset->y, -elem_positions[i].y);
+		position_offset->z = MAX(position_offset->z, -elem_positions[i].z);
 	}
 	return ;
 }

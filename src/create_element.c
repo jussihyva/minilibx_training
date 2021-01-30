@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/29 23:09:50 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 21:53:41 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_elem_size	*set_element_size(void)
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
 	elem_size->x = 150;
 	elem_size->y = 150;
-	elem_size->z = 450;
+	elem_size->z = 50;
 	return (elem_size);
 }
 
@@ -58,7 +58,6 @@ t_element			*create_element(t_mlx_win *mlx_win,
 								t_position *start_position, t_position *angle)
 {
 	t_element	*element;
-	int			i;
 	int			x_len;
 	int			y_len;
 
@@ -68,8 +67,7 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	element->angle = (t_position *)ft_memalloc(sizeof(*angle));
 	element->elem_size = set_element_size();
 	ft_memcpy(element->angle, angle, sizeof(*angle));
-	element->elem_positions = set_elem_positions(element->elem_size,
-																start_position);
+	element->elem_positions = set_elem_positions(element->elem_size);
 	element->elem_start_positions = 
 			(t_position *)ft_memalloc(sizeof(*element->elem_start_positions) *
 														NUM_OF_ELEM_POSITIONS);
@@ -86,8 +84,5 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	element->img = mlx_new_image(mlx_win->mlx, x_len, y_len);
 	element->addr = mlx_get_data_addr(element->img, &(element->bits_per_pixel),
 								&(element->line_length), &(element->endian));
-	i = -1;
-	while (++i < 10)
-		mlx_image_pixel_put(element, i, i, 0x00FF0000);
 	return (element);
 }

@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 00:04:53 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 21:41:51 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,18 +38,14 @@ int		key_press(int keycode, t_mlx_win *mlx_win)
 	{
 		if (mlx_win->render_action == e_no_action)
 		{
-			element1->angle->x = (element1->angle->x + 5) % 360;
-			element2->angle->x = (element2->angle->x + 5) % 360;
+			element1->angle->x = (element1->angle->x + 1) % 360;
+			element2->angle->x = (element2->angle->x + 1) % 360;
+			element1->angle->z = (element1->angle->z + 1) % 360;
+			element2->angle->z = (element2->angle->z + 1) % 360;
+			element1->angle->y = (element1->angle->y + 1) % 360;
+			element2->angle->y = (element2->angle->y + 1) % 360;
 			z_elemental_rotation(element1);
-			// ft_printf("Element 1 offset: %d %d %d\n",
-			// 								element1->elem_position_offset.x,
-			// 								element1->elem_position_offset.y,
-			// 								element1->elem_position_offset.z);
 			z_elemental_rotation(element2);
-			// ft_printf("Element 2 offset: %d %d %d\n",
-			// 								element2->elem_position_offset.x,
-			// 								element2->elem_position_offset.y,
-			// 								element2->elem_position_offset.z);
 			ft_bzero(element1->addr, 600 * element1->line_length +
 										600 * (element1->bits_per_pixel / 8));
 			ft_bzero(element2->addr, 600 * element2->line_length +
