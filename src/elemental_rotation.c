@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/01/30 21:56:13 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 22:02:36 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ static double	**get_y_rotation_matrix(int angle)
 									(*fn_y_rotation_matrix[i][j])(radian_angle);
 		}
 		g_y_is_rotation_matrix[angle] = 1;
-		ft_printf("ANGLE: %d\n", angle);
 	}
 	rotation_matrix = g_y_rotation_matrix[angle];
 	return (rotation_matrix);
@@ -127,7 +126,6 @@ static double	**get_x_rotation_matrix(int angle)
 									(*fn_x_rotation_matrix[i][j])(radian_angle);
 		}
 		g_x_is_rotation_matrix[angle] = 1;
-		ft_printf("ANGLE: %d\n", angle);
 	}
 	rotation_matrix = g_x_rotation_matrix[angle];
 	return (rotation_matrix);
@@ -160,6 +158,7 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	elem_position_vector[1] = elem_position->y;
 	elem_position_vector[2] = elem_position->z;
 	rotation_matrix = get_z_rotation_matrix(angle->x);
+	ft_printf("ANGLE X: %d\n", angle->x);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
@@ -167,6 +166,7 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	elem_position_vector[2] = new_elem_position_vector[2];
 
 	rotation_matrix = get_y_rotation_matrix(angle->z);
+	ft_printf("ANGLE Z: %d\n", angle->z);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
@@ -174,6 +174,7 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	elem_position_vector[2] = new_elem_position_vector[2];
 
 	rotation_matrix = get_x_rotation_matrix(angle->y);
+	ft_printf("ANGLE Y: %d\n", angle->y);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position->x = (int)(new_elem_position_vector[0] + 0.5);

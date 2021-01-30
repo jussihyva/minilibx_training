@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 21:41:51 by juhani           ###   ########.fr       */
+/*   Updated: 2021/01/30 22:24:32 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,37 @@ int		key_press(int keycode, t_mlx_win *mlx_win)
 		element1->next_position.y = element1->current_position.y + 20;
 		mlx_win->render_action = e_put_image_to_window;
 	}
-	else if (keycode == 0x32)
+	else if (ft_strchr("asdzxc", keycode))
 	{
 		if (mlx_win->render_action == e_no_action)
 		{
-			element1->angle->x = (element1->angle->x + 1) % 360;
-			element2->angle->x = (element2->angle->x + 1) % 360;
-			element1->angle->z = (element1->angle->z + 1) % 360;
-			element2->angle->z = (element2->angle->z + 1) % 360;
-			element1->angle->y = (element1->angle->y + 1) % 360;
-			element2->angle->y = (element2->angle->y + 1) % 360;
+			if (keycode == 'a')
+				element2->angle->x = (element2->angle->x + 1) % 360;
+			if (keycode == 'z')
+			{
+				if (element2->angle->x)
+					element2->angle->x = (element2->angle->x - 1) % 360;
+				else
+					element2->angle->x = 359;
+			}
+			if (keycode == 's')
+				element2->angle->y = (element2->angle->y + 1) % 360;
+			if (keycode == 'x')
+			{
+				if (element2->angle->y)
+					element2->angle->y = (element2->angle->y - 1) % 360;
+				else
+					element2->angle->y = 359;
+			}
+			if (keycode == 'd')
+				element2->angle->z = (element2->angle->z + 1) % 360;
+			if (keycode == 'c')
+			{
+				if (element2->angle->z)
+					element2->angle->z = (element2->angle->z - 1) % 360;
+				else
+					element2->angle->z = 359;
+			}
 			z_elemental_rotation(element1);
 			z_elemental_rotation(element2);
 			ft_bzero(element1->addr, 600 * element1->line_length +
