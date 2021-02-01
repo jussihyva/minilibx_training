@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 21:53:41 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/01 01:41:19 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_elem_size	*set_element_size(void)
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
 	elem_size->x = 150;
 	elem_size->y = 150;
-	elem_size->z = 50;
+	elem_size->z = 150;
 	return (elem_size);
 }
 
@@ -28,6 +28,8 @@ static void			set_elem_line(t_elem_line *elem_line, t_position *start,
 {
 	elem_line->start = start;
 	elem_line->end = end;
+	// elem_line->color = 
+	elem_line->line_type = 0;
 	return ;
 }
 
@@ -73,7 +75,7 @@ t_element			*create_element(t_mlx_win *mlx_win,
 														NUM_OF_ELEM_POSITIONS);
 	ft_memcpy(element->elem_start_positions, element->elem_positions,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
-	z_elemental_rotation(element);
+	elemental_rotation(element);
 	element->elem_lines = set_elem_lines(element->elem_positions);
 	ft_memcpy(&element->start_position, start_position, sizeof(*start_position));
 	element->next_position.x = start_position->x + 20;

@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 22:24:32 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/01 01:26:54 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,11 @@ int		key_press(int keycode, t_mlx_win *mlx_win)
 				else
 					element2->angle->z = 359;
 			}
-			z_elemental_rotation(element1);
-			z_elemental_rotation(element2);
+			elemental_rotation(element2);
 			ft_bzero(element1->addr, 600 * element1->line_length +
 										600 * (element1->bits_per_pixel / 8));
 			ft_bzero(element2->addr, 600 * element2->line_length +
 										600 * (element2->bits_per_pixel / 8));
-			draw_lines(element1);
 			draw_lines(element2);
 			mlx_win->render_action = e_put_image_to_window;
 		}

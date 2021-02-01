@@ -6,13 +6,14 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 21:29:18 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/01 01:36:47 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EX_H
 # define EX_H
 # include "mlx.h"
+# include "mlx_int.h"
 # include "ft_printf.h"
 # include <math.h>
 
@@ -52,7 +53,18 @@ typedef struct	s_elem_line
 {
 	t_position	*start;
 	t_position	*end;
+	int			color;
+	int			line_type;
 }				t_elem_line;
+
+typedef struct	s_drawing_data
+{
+	int			color;
+	int			size_line;
+	t_position	start;
+	t_position	end;
+	int			line_type;
+}				t_drawing_data;
 
 typedef struct	s_element
 {
@@ -62,8 +74,8 @@ typedef struct	s_element
 	t_position	*elem_start_positions;
 	t_position	elem_position_offset;
 	t_elem_line	*elem_lines;
-	void		*empty_img;
-	void		*img;
+	t_img		*empty_img;
+	t_img		*img;
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
@@ -96,9 +108,11 @@ void			mlx_image_pixel_put(t_element *element, int x, int y,
 																	int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
 t_position		*set_elem_positions(t_elem_size *elem_size);
-void			z_elemental_rotation(t_element *element);
+void			elemental_rotation(t_element *element);
 void			draw_lines(t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
 t_position		*read_cmd_arguments(int argc, char **argv);
+void			bresenham_draw_line(t_img *img, t_elem_line *line,
+											t_position *elem_position_offset);
 
 #endif
