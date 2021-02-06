@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/01 01:36:47 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:28:02 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct	s_mlx_win
 	void				*win;
 	t_element			*element1;
 	t_element			*element2;
+	t_position			*angle;
 	t_render_action		render_action;
 }				t_mlx_win;
 
@@ -102,13 +103,12 @@ int				enter_notify(t_mlx_win *mlx_win);
 int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
-t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
-															t_position *angle);
+t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position);
 void			mlx_image_pixel_put(t_element *element, int x, int y,
 																	int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
 t_position		*set_elem_positions(t_elem_size *elem_size);
-void			elemental_rotation(t_element *element);
+void			elemental_rotation(t_element *element, t_position *angle);
 void			draw_lines(t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
 t_position		*read_cmd_arguments(int argc, char **argv);

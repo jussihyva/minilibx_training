@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/01/30 21:39:43 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:36:37 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void			release_mlx_win(t_mlx_win **mlx_win)
 	mlx_destroy_window((*mlx_win)->mlx, (*mlx_win)->win);
 	mlx_destroy_display((*mlx_win)->mlx);
 	ft_memdel((void **)&(*mlx_win)->mlx);
+	ft_memdel((void **)&(*mlx_win)->angle);
 	ft_memdel((void **)mlx_win);
 	release_rotation_matrix(g_z_rotation_matrix, g_z_is_rotation_matrix);
 	release_rotation_matrix(g_y_rotation_matrix, g_y_is_rotation_matrix);

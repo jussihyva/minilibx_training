@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/01 01:41:19 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:50:19 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ static t_elem_size	*set_element_size(void)
 	t_elem_size		*elem_size;
 
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
-	elem_size->x = 150;
-	elem_size->y = 150;
-	elem_size->z = 150;
+	elem_size->x = 50;
+	elem_size->y = 50;
+	elem_size->z = 50;
 	return (elem_size);
 }
 
@@ -57,7 +57,7 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 }
 
 t_element			*create_element(t_mlx_win *mlx_win,
-								t_position *start_position, t_position *angle)
+													t_position *start_position)
 {
 	t_element	*element;
 	int			x_len;
@@ -66,20 +66,20 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	x_len = 600;
 	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
-	element->angle = (t_position *)ft_memalloc(sizeof(*angle));
+	element->angle = (t_position *)ft_memalloc(sizeof(*mlx_win->angle));
 	element->elem_size = set_element_size();
-	ft_memcpy(element->angle, angle, sizeof(*angle));
+	ft_memcpy(element->angle, mlx_win->angle, sizeof(*mlx_win->angle));
 	element->elem_positions = set_elem_positions(element->elem_size);
 	element->elem_start_positions = 
 			(t_position *)ft_memalloc(sizeof(*element->elem_start_positions) *
 														NUM_OF_ELEM_POSITIONS);
 	ft_memcpy(element->elem_start_positions, element->elem_positions,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
-	elemental_rotation(element);
+	elemental_rotation(element, element->angle);
 	element->elem_lines = set_elem_lines(element->elem_positions);
 	ft_memcpy(&element->start_position, start_position, sizeof(*start_position));
-	element->next_position.x = start_position->x + 20;
-	element->next_position.y = start_position->y + 20;
+	element->next_position.x = start_position->x;
+	element->next_position.y = start_position->y;
 	element->current_position.x = -1;
 	element->current_position.y = -1;
 	element->empty_img = mlx_new_image(mlx_win->mlx, x_len, y_len);

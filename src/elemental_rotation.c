@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/01 01:25:52 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/06 16:31:06 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,21 +157,21 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	elem_position_vector[0] = elem_position->x;
 	elem_position_vector[1] = elem_position->y;
 	elem_position_vector[2] = elem_position->z;
-	rotation_matrix = get_z_rotation_matrix(angle->x);
+	rotation_matrix = get_z_rotation_matrix(angle->z);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
 	elem_position_vector[1] = new_elem_position_vector[1];
 	elem_position_vector[2] = new_elem_position_vector[2];
 
-	rotation_matrix = get_y_rotation_matrix(angle->z);
+	rotation_matrix = get_y_rotation_matrix(angle->y);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
 	elem_position_vector[1] = new_elem_position_vector[1];
 	elem_position_vector[2] = new_elem_position_vector[2];
 
-	rotation_matrix = get_x_rotation_matrix(angle->y);
+	rotation_matrix = get_x_rotation_matrix(angle->x);
 	matrix_vector_multiply(rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position->x = (int)(new_elem_position_vector[0] + 0.5);
@@ -180,20 +180,33 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	return ;
 }
 
-void			elemental_rotation(t_element *element)
+static size_t	line_len(t_position	*elem_position1, t_position	*elem_position2)
+{
+	double		len;
+
+	len = sqrt(pow(elem_position1->x - elem_position2->x, 2) +
+				pow(elem_position1->y - elem_position2->y, 2));
+	return ((size_t)len);
+}
+
+void			elemental_rotation(t_element *element, t_position *angle)
 {
 	size_t		i;
 	t_position	*position_offset;
 	t_position	*elem_positions;
-	t_position	*angle;
+	size_t		size54;
+	size_t		size57;
+	size_t		size51;
 
 	ft_memcpy(element->elem_positions, element->elem_start_positions,
 				sizeof(*element->elem_start_positions) * NUM_OF_ELEM_POSITIONS);
 	elem_positions = element->elem_positions;
 	position_offset = &element->elem_position_offset;
 	ft_bzero(position_offset, sizeof(*position_offset));
-	angle = element->angle;
-	ft_printf("ANGLE: X=%d Y=%d Z=%d\n", angle->x, angle->y, angle->z);
+	// angle = element->angle;
+	ft_printf("ANGLE: X=%3d(%3d) Y=%3d(%3d) Z=%3d(%3d)", angle->x, angle->x - 360,
+													angle->y, angle->y - 360,
+													angle->z, angle->z - 360);
 	i = -1;
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
@@ -202,5 +215,9 @@ void			elemental_rotation(t_element *element)
 		position_offset->y = MAX(position_offset->y, -elem_positions[i].y);
 		position_offset->z = MAX(position_offset->z, -elem_positions[i].z);
 	}
+	size54 = line_len(&elem_positions[5], &elem_positions[4]);
+	size57 = line_len(&elem_positions[7], &elem_positions[5]);
+	size51 = line_len(&elem_positions[1], &elem_positions[5]);
+	ft_printf("SIZE: 5_4=%u 5_7=%u 5_1=%u\n", size54, size57, size51);
 	return ;
 }
