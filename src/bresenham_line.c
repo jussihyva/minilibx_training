@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 16:19:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/01 01:45:56 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 12:27:56 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,25 @@ static void		draw_high(int *img_buffer, t_drawing_data *drawing_data)
 	return ;
 }
 
+static void		initialize_drawing_data(t_drawing_data *drawing_data,
+												t_img *img, t_elem_line *line)
+{
+	drawing_data->color = line->color;
+	drawing_data->line_type = line->line_type;
+	drawing_data->size_line = img->size_line / 4;
+	return ;
+}
+
+static void		add_offset(t_drawing_data *drawing_data,
+											t_position *elem_position_offset)
+{
+	drawing_data->start.x += elem_position_offset->x;
+	drawing_data->start.y += elem_position_offset->y;
+	drawing_data->end.x += elem_position_offset->x;
+	drawing_data->end.y += elem_position_offset->y;
+	return ;
+}
+
 void			bresenham_draw_line(t_img *img, t_elem_line *line,
 											t_position *elem_position_offset)
 {
@@ -77,9 +96,7 @@ void			bresenham_draw_line(t_img *img, t_elem_line *line,
 	int				delta_y;
 	t_drawing_data	drawing_data;
 
-	drawing_data.color = line->color;
-	drawing_data.line_type = line->line_type;
-	drawing_data.size_line = img->size_line / 4;
+	initialize_drawing_data(&drawing_data, img, line);
 	delta_x = ft_abs(line->end->x - line->start->x);
 	delta_y = ft_abs(line->end->y - line->start->y);
 	if ((delta_y < delta_x && line->start->x > line->end->x) ||
@@ -93,10 +110,7 @@ void			bresenham_draw_line(t_img *img, t_elem_line *line,
 		drawing_data.start = *line->start;
 		drawing_data.end = *line->end;
 	}
-	drawing_data.start.x += elem_position_offset->x;
-	drawing_data.start.y += elem_position_offset->y;
-	drawing_data.end.x += elem_position_offset->x;
-	drawing_data.end.y += elem_position_offset->y;
+	add_offset(&drawing_data, elem_position_offset);
 	if (delta_y < delta_x)
 		draw_low((int *)img->data, &drawing_data);
 	else

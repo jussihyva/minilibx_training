@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/07 11:54:59 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 12:14:57 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,27 @@ static double	neg_sin(double nbr)
 {
 	return (-sin(nbr));
 }
+
+static double	(*g_fn_z_rotation_matrix[3][3])(double) =
+{
+	{cos, neg_sin, d_zero},
+	{sin, cos, d_zero},
+	{d_zero, d_zero, d_one}
+};
+
+static double	(*g_fn_y_rotation_matrix[3][3])(double) =
+{
+	{cos, d_zero, sin},
+	{d_zero, d_one, d_zero},
+	{neg_sin, d_zero, cos}
+};
+
+static double	(*g_fn_x_rotation_matrix[3][3])(double) =
+{
+	{d_one, d_zero, d_zero},
+	{d_zero, cos, neg_sin},
+	{d_zero, sin, cos}
+};
 
 static double	**initialize_rotation_matrix(double radian_angle,
 									double (*fn_rotation_matrix[3][3])(double))
@@ -54,10 +75,6 @@ static double	**initialize_rotation_matrix(double radian_angle,
 
 static double	**get_z_rotation_matrix(int angle)
 {
-	static double	(*fn_z_rotation_matrix[3][3])(double) =
-													{{cos, neg_sin, d_zero},
-													{sin, cos, d_zero},
-													{d_zero, d_zero, d_one}};
 	double		**rotation_matrix;
 	double		radian_angle;
 
@@ -65,7 +82,7 @@ static double	**get_z_rotation_matrix(int angle)
 	if (!g_z_is_rotation_matrix[angle])
 	{
 		g_z_rotation_matrix[angle] = initialize_rotation_matrix(radian_angle,
-														fn_z_rotation_matrix);
+														g_fn_z_rotation_matrix);
 		g_z_is_rotation_matrix[angle] = 1;
 	}
 	rotation_matrix = g_z_rotation_matrix[angle];
@@ -74,10 +91,6 @@ static double	**get_z_rotation_matrix(int angle)
 
 static double	**get_y_rotation_matrix(int angle)
 {
-	static double	(*fn_y_rotation_matrix[3][3])(double) =
-													{{cos, d_zero, sin},
-													{d_zero, d_one, d_zero},
-													{neg_sin, d_zero, cos}};
 	double		**rotation_matrix;
 	double		radian_angle;
 
@@ -85,7 +98,7 @@ static double	**get_y_rotation_matrix(int angle)
 	{
 		radian_angle = ft_radian(angle);
 		g_y_rotation_matrix[angle] = initialize_rotation_matrix(radian_angle,
-														fn_y_rotation_matrix);
+														g_fn_y_rotation_matrix);
 		g_y_is_rotation_matrix[angle] = 1;
 	}
 	rotation_matrix = g_y_rotation_matrix[angle];
@@ -94,10 +107,6 @@ static double	**get_y_rotation_matrix(int angle)
 
 static double	**get_x_rotation_matrix(int angle)
 {
-	static double	(*fn_x_rotation_matrix[3][3])(double) =
-													{{d_one, d_zero, d_zero},
-													{d_zero, cos, neg_sin},
-													{d_zero, sin, cos}};
 	double		**rotation_matrix;
 	double		radian_angle;
 
@@ -105,7 +114,7 @@ static double	**get_x_rotation_matrix(int angle)
 	{
 		radian_angle = ft_radian(angle);
 		g_x_rotation_matrix[angle] = initialize_rotation_matrix(radian_angle,
-														fn_x_rotation_matrix);
+														g_fn_x_rotation_matrix);
 		g_x_is_rotation_matrix[angle] = 1;
 	}
 	rotation_matrix = g_x_rotation_matrix[angle];
@@ -156,7 +165,6 @@ static void		rotation(t_position *elem_position, t_position *angle)
 	elem_position->x = (int)(new_elem_position_vector[0] + 0.5);
 	elem_position->y = (int)(new_elem_position_vector[1] + 0.5);
 	elem_position->z = (int)(new_elem_position_vector[2] + 0.5);
-	return ;
 }
 
 static size_t	line_len(t_position *elem_position1, t_position *elem_position2)
