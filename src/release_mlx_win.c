@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 20:24:36 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 21:07:37 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ static void		release_rotation_matrix(double ***rotation_matrix,
 
 static void		release_element(t_element *element)
 {
-	ft_memdel((void **)&element->elem_size);
 	ft_memdel((void **)&element->elem_positions);
 	ft_memdel((void **)&element->start_position);
 	ft_memdel((void **)&element->elem_start_positions);

@@ -6,26 +6,29 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 20:20:36 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 21:37:19 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
 
-static void		change_angle(int keycode, t_position *angle)
+static void		change_angle(int keycode, t_position *angle, int angle_step)
 {
 	if (keycode == 'a')
-		angle->x = (angle->x + 1) % 360;
+		angle->x = (angle->x + angle_step) % 360;
 	else if (keycode == 'z')
-		angle->x = (angle->x) ? (angle->x - 1) % 360 : 359;
+		angle->x = (angle->x >= angle_step) ? (angle->x - angle_step) % 360 :
+												(angle->x + 360 - angle_step);
 	else if (keycode == 's')
-		angle->y = (angle->y + 1) % 360;
+		angle->y = (angle->y + angle_step) % 360;
 	else if (keycode == 'x')
-		angle->y = (angle->y) ? (angle->y - 1) % 360 : 359;
+		angle->y = (angle->y >= angle_step) ? (angle->y - angle_step) % 360 :
+												(angle->y + 360 - angle_step);
 	else if (keycode == 'd')
-		angle->z = (angle->z + 1) % 360;
+		angle->z = (angle->z + angle_step) % 360;
 	else if (keycode == 'c')
-		angle->z = (angle->z) ? (angle->z - 1) % 360 : 359;
+		angle->z = (angle->z >= angle_step) ? (angle->z - angle_step) % 360 :
+												(angle->z + 360 - angle_step);
 	return ;
 }
 
@@ -34,14 +37,6 @@ int				button_press(int keycode, int x, int y, t_mlx_win *mlx_win)
 	(void)mlx_win;
 	ft_printf("Key: %d, Mouse location: x:%d, y:%d\n", keycode, x, y);
 	return (0);
-}
-
-void			change_element_position(t_img *img, t_element *element,
-								t_position *angle, t_position *position_offset)
-{
-	elemental_rotation(element, angle, position_offset, element->start_position);
-	draw_lines(img, element);
-	return ;
 }
 
 int				key_press(int keycode, t_mlx_win *mlx_win)
@@ -57,7 +52,7 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 		;
 	else if (ft_strchr("asdzxc", keycode))
 	{
-		change_angle(keycode, mlx_win->angle);
+		change_angle(keycode, mlx_win->angle, mlx_win->angle_step);
 		element_arrray[0] = mlx_win->element1;
 		element_arrray[1] = mlx_win->element2;
 		ft_bzero(mlx_win->img->data, 600 * mlx_win->img->size_line / 4 +
@@ -69,8 +64,8 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 				ft_memcpy(mlx_win->element2->start_position,
 					&mlx_win->element1->elem_positions[1],
 					sizeof(*mlx_win->element2->start_position));
-			change_element_position(mlx_win->img, element_arrray[i],
-											mlx_win->angle, position_offset);
+			elemental_rotation(element_arrray[i], mlx_win->angle,
+							position_offset, element_arrray[i]->start_position);
 		}
 		mlx_win->element1->elem_position_offset.x = position_offset->x;
 		mlx_win->element1->elem_position_offset.y = position_offset->y;
@@ -78,6 +73,9 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 										mlx_win->element1->elem_positions[1].x;
 		mlx_win->element2->elem_position_offset.y = position_offset->y +
 										mlx_win->element1->elem_positions[1].y;
+		i = -1;
+		while (++i < 2)
+			draw_lines(mlx_win->img, element_arrray[i]);
 		mlx_win->render_action = e_put_image_to_window;
 	}
 	else

@@ -6,22 +6,11 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 20:16:26 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 21:39:23 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
-
-static t_elem_size	*set_element_size(void)
-{
-	t_elem_size		*elem_size;
-
-	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
-	elem_size->x = 50;
-	elem_size->y = 50;
-	elem_size->z = 100;
-	return (elem_size);
-}
 
 static void			set_elem_line(t_elem_line *elem_line, t_position *start,
 																t_position *end)
@@ -56,7 +45,8 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 }
 
 t_element			*create_element(t_mlx_win *mlx_win,
-						t_position *start_position, t_position *position_offset)
+						t_position *start_position, t_position *position_offset,
+						t_position *elem_size)
 {
 	t_element	*element;
 
@@ -64,15 +54,16 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	element->angle = (t_position *)ft_memalloc(sizeof(*element->angle));
 	element->start_position =
 					(t_position *)ft_memalloc(sizeof(*element->start_position));
-	element->elem_size = set_element_size();
+	ft_memcpy(&element->elem_size, elem_size, sizeof(*elem_size));
 	ft_memcpy(element->angle, mlx_win->angle, sizeof(*mlx_win->angle));
-	element->elem_positions = set_elem_positions(element->elem_size);
+	element->elem_positions = set_elem_positions(&element->elem_size);
 	element->elem_start_positions =
 			(t_position *)ft_memalloc(sizeof(*element->elem_start_positions) *
 														NUM_OF_ELEM_POSITIONS);
 	ft_memcpy(element->elem_start_positions, element->elem_positions,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
-	elemental_rotation(element, element->angle, position_offset, start_position);
+	elemental_rotation(element, element->angle, position_offset,
+																start_position);
 	element->elem_lines = set_elem_lines(element->elem_positions);
 	ft_memcpy(element->start_position, start_position,
 											sizeof(*element->start_position));

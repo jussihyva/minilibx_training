@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:33:41 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 18:41:12 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 21:01:37 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ int				main(int argc, char **argv)
 	t_mlx_win	*mlx_win;
 	t_position	elem_start_position;
 	t_position	*position_offset;
+	t_position	elem_size;
 
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
 	mlx_win = (t_mlx_win *)ft_memalloc(sizeof(*mlx_win));
@@ -25,8 +26,9 @@ int				main(int argc, char **argv)
 	mlx_win->mlx = mlx_init();
 	initialize_window(mlx_win, "Minilibx training 3 (ex3)");
 	set_position(&elem_start_position, 0, 0, 0);
+	set_position(&elem_size, 50, 50, 50);
 	mlx_win->element1 = create_element(mlx_win, &elem_start_position,
-															position_offset);
+												position_offset, &elem_size);
 	mlx_loop_hook(mlx_win->mlx, render_frame, mlx_win);
 	mlx_loop(mlx_win->mlx);
 	release_mlx_win(&mlx_win);

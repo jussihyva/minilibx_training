@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 20:24:09 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 21:42:31 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ double	**g_y_rotation_matrix[360];
 int		g_y_is_rotation_matrix[360];
 double	**g_x_rotation_matrix[360];
 int		g_x_is_rotation_matrix[360];
+
+typedef struct	s_xy_values
+{
+	int			x;
+	int			y;
+}				t_xy_values;
 
 typedef struct	s_position
 {
@@ -66,7 +72,7 @@ typedef struct	s_drawing_data
 
 typedef struct	s_element
 {
-	t_elem_size	*elem_size;
+	t_elem_size	elem_size;
 	t_position	*angle;
 	t_position	*elem_positions;
 	t_position	*elem_start_positions;
@@ -86,6 +92,7 @@ typedef struct	s_mlx_win
 	t_element			*element1;
 	t_element			*element2;
 	t_position			*angle;
+	int					angle_step;
 	t_img				*img;
 	t_position			*img_start_position;
 	t_img				*empty_img;
@@ -101,7 +108,7 @@ int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
 t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
-												t_position *position_offset);
+							t_position *position_offset, t_position *elem_size);
 void			mlx_image_pixel_put(t_img *img, int x, int y, int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
 t_position		*set_elem_positions(t_elem_size *elem_size);
