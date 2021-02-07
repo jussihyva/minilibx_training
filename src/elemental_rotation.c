@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/07 12:14:57 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 19:03:27 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,24 +195,25 @@ static void		print_element_data(t_element *element, t_position *angle)
 	return ;
 }
 
-void			elemental_rotation(t_element *element, t_position *angle)
+void			elemental_rotation(t_element *element, t_position *angle,
+						t_position *position_offset, t_position *start_position)
 {
 	size_t		i;
-	t_position	*position_offset;
 	t_position	*elem_positions;
 
 	ft_memcpy(element->elem_positions, element->elem_start_positions,
 				sizeof(*element->elem_start_positions) * NUM_OF_ELEM_POSITIONS);
 	elem_positions = element->elem_positions;
-	position_offset = &element->elem_position_offset;
-	ft_bzero(position_offset, sizeof(*position_offset));
 	i = -1;
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
 		rotation(&(elem_positions[i]), angle);
-		position_offset->x = ft_max(position_offset->x, -elem_positions[i].x);
-		position_offset->y = ft_max(position_offset->y, -elem_positions[i].y);
-		position_offset->z = ft_max(position_offset->z, -elem_positions[i].z);
+		position_offset->x = ft_max(position_offset->x, -(elem_positions[i].x +
+															start_position->x));
+		position_offset->y = ft_max(position_offset->y, -(elem_positions[i].y +
+															start_position->y));
+		position_offset->z = ft_max(position_offset->z, -(elem_positions[i].z +
+															start_position->z));
 	}
 	print_element_data(element, angle);
 	return ;

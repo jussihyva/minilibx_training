@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 16:25:50 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 19:00:26 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static t_elem_line	*set_elem_lines(t_position *elem_positions)
 }
 
 t_element			*create_element(t_mlx_win *mlx_win,
-													t_position *start_position)
+						t_position *start_position, t_position *position_offset)
 {
 	t_element	*element;
 
@@ -72,7 +72,7 @@ t_element			*create_element(t_mlx_win *mlx_win,
 														NUM_OF_ELEM_POSITIONS);
 	ft_memcpy(element->elem_start_positions, element->elem_positions,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
-	elemental_rotation(element, element->angle);
+	elemental_rotation(element, element->angle, position_offset, start_position);
 	element->elem_lines = set_elem_lines(element->elem_positions);
 	ft_memcpy(&element->start_position, start_position,
 													sizeof(*start_position));

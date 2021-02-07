@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 16:32:38 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 19:01:16 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,11 +104,13 @@ int				enter_notify(t_mlx_win *mlx_win);
 int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
-t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position);
+t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position,
+												t_position *position_offset);
 void			mlx_image_pixel_put(t_img *img, int x, int y, int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
 t_position		*set_elem_positions(t_elem_size *elem_size);
-void			elemental_rotation(t_element *element, t_position *angle);
+void			elemental_rotation(t_element *element, t_position *angle,
+					t_position *position_offset, t_position *start_position);
 void			draw_lines(t_img *img, t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
 t_position		*read_cmd_arguments(int argc, char **argv);
