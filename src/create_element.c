@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/06 16:50:19 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 09:15:45 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	x_len = 600;
 	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
-	element->angle = (t_position *)ft_memalloc(sizeof(*mlx_win->angle));
+	element->angle = (t_position *)ft_memalloc(sizeof(*element->angle));
+	element->next_position =
+					(t_position *)ft_memalloc(sizeof(*element->next_position));
 	element->elem_size = set_element_size();
 	ft_memcpy(element->angle, mlx_win->angle, sizeof(*mlx_win->angle));
 	element->elem_positions = set_elem_positions(element->elem_size);
@@ -77,9 +79,10 @@ t_element			*create_element(t_mlx_win *mlx_win,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
 	elemental_rotation(element, element->angle);
 	element->elem_lines = set_elem_lines(element->elem_positions);
-	ft_memcpy(&element->start_position, start_position, sizeof(*start_position));
-	element->next_position.x = start_position->x;
-	element->next_position.y = start_position->y;
+	ft_memcpy(&element->start_position, start_position,
+													sizeof(*start_position));
+	ft_memcpy(element->next_position, start_position,
+											sizeof(*element->next_position));
 	element->current_position.x = -1;
 	element->current_position.y = -1;
 	element->empty_img = mlx_new_image(mlx_win->mlx, x_len, y_len);

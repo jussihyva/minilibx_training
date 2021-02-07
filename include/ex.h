@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/06 16:28:02 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 11:09:55 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@
 
 # define PI							3.141592654
 # define NUM_OF_ELEM_POSITIONS		8
-# define RADIAN(x)					x * PI / 180
-# define MAX(x,y)					(x > y) ? x : y
 
 double	**g_z_rotation_matrix[360];
 int		g_z_is_rotation_matrix[360];
@@ -82,7 +80,7 @@ typedef struct	s_element
 	int			endian;
 	t_position	start_position;
 	t_position	current_position;
-	t_position	next_position;
+	t_position	*next_position;
 }				t_element;
 
 typedef struct	s_mlx_win
@@ -114,5 +112,7 @@ void			set_position(t_position *position, int x, int y, int z);
 t_position		*read_cmd_arguments(int argc, char **argv);
 void			bresenham_draw_line(t_img *img, t_elem_line *line,
 											t_position *elem_position_offset);
+double			ft_radian(double angle_degree);
+int				ft_max(int nbr1, int nbr2);
 
 #endif

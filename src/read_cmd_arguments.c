@@ -6,11 +6,11 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:01:55 by juhani            #+#    #+#             */
-/*   Updated: 2021/01/29 23:08:21 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 08:34:35 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "ex.h"
+#include "ex.h"
 
 t_position	*read_cmd_arguments(int argc, char **argv)
 {
