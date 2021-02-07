@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 12:10:22 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 16:32:38 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ typedef struct	s_element
 	t_position	*elem_start_positions;
 	t_position	elem_position_offset;
 	t_elem_line	*elem_lines;
-	t_img		*empty_img;
-	t_img		*img;
 	char		*addr;
 	int			bits_per_pixel;
 	int			line_length;
@@ -90,6 +88,11 @@ typedef struct	s_mlx_win
 	t_element			*element1;
 	t_element			*element2;
 	t_position			*angle;
+	t_img				*img;
+	t_position			img_start_position;
+	t_position			img_current_position;
+	t_position			*img_next_position;
+	t_img				*empty_img;
 	t_render_action		render_action;
 }				t_mlx_win;
 
@@ -102,12 +105,11 @@ int				leave_notify(t_mlx_win *mlx_win);
 void			release_mlx_win(t_mlx_win **mlx_win);
 int				render_frame(t_mlx_win *mlx_win);
 t_element		*create_element(t_mlx_win *mlx_win, t_position *start_position);
-void			mlx_image_pixel_put(t_element *element, int x, int y,
-																	int color);
+void			mlx_image_pixel_put(t_img *img, int x, int y, int color);
 void			initialize_window(t_mlx_win *mlx_win, char *window_name);
 t_position		*set_elem_positions(t_elem_size *elem_size);
 void			elemental_rotation(t_element *element, t_position *angle);
-void			draw_lines(t_element *element);
+void			draw_lines(t_img *img, t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
 t_position		*read_cmd_arguments(int argc, char **argv);
 void			bresenham_draw_line(t_img *img, t_elem_line *line,

@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 12:16:16 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 16:25:50 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,7 @@ t_element			*create_element(t_mlx_win *mlx_win,
 													t_position *start_position)
 {
 	t_element	*element;
-	int			x_len;
-	int			y_len;
 
-	x_len = 600;
-	y_len = 600;
 	element = (t_element *)ft_memalloc(sizeof(*element));
 	element->angle = (t_position *)ft_memalloc(sizeof(*element->angle));
 	element->next_position =
@@ -84,9 +80,5 @@ t_element			*create_element(t_mlx_win *mlx_win,
 											sizeof(*element->next_position));
 	element->current_position.x = -1;
 	element->current_position.y = -1;
-	element->empty_img = mlx_new_image(mlx_win->mlx, x_len, y_len);
-	element->img = mlx_new_image(mlx_win->mlx, x_len, y_len);
-	element->addr = mlx_get_data_addr(element->img, &(element->bits_per_pixel),
-								&(element->line_length), &(element->endian));
 	return (element);
 }

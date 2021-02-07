@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 09:25:55 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 16:03:03 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,8 @@ static void		release_element(t_element *element)
 
 void			release_mlx_win(t_mlx_win **mlx_win)
 {
-	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->element1->empty_img);
-	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->element1->img);
-	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->element2->empty_img);
-	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->element2->img);
+	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->empty_img);
+	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->img);
 	release_element((*mlx_win)->element1);
 	release_element((*mlx_win)->element2);
 	mlx_destroy_window((*mlx_win)->mlx, (*mlx_win)->win);

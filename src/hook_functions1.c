@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 11:35:55 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 16:46:47 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,11 @@ int				button_press(int keycode, int x, int y, t_mlx_win *mlx_win)
 	return (0);
 }
 
-void			change_element_position(t_element *element, t_position *angle)
+void			change_element_position(t_img *img, t_element *element,
+															t_position *angle)
 {
 	elemental_rotation(element, angle);
-	ft_bzero(element->addr, 600 * element->line_length +
-										600 * (element->bits_per_pixel / 8));
-	draw_lines(element);
+	draw_lines(img, element);
 	return ;
 }
 
@@ -59,6 +58,8 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 		change_angle(keycode, mlx_win->angle);
 		element_arrray[0] = mlx_win->element1;
 		element_arrray[1] = mlx_win->element2;
+		ft_bzero(mlx_win->img->data, 600 * mlx_win->img->size_line / 4 +
+										600 * (mlx_win->img->bpp / 8));
 		i = -1;
 		while (++i < 2)
 		{
@@ -66,7 +67,8 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 				ft_memcpy(mlx_win->element2->next_position,
 					&mlx_win->element1->elem_positions[1],
 					sizeof(*mlx_win->element2->next_position));
-			change_element_position(element_arrray[i], mlx_win->angle);
+			change_element_position(mlx_win->img, element_arrray[i],
+																mlx_win->angle);
 		}
 		mlx_win->render_action = e_put_image_to_window;
 	}
