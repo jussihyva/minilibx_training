@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 19:55:46 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 20:20:36 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int				button_press(int keycode, int x, int y, t_mlx_win *mlx_win)
 void			change_element_position(t_img *img, t_element *element,
 								t_position *angle, t_position *position_offset)
 {
-	elemental_rotation(element, angle, position_offset, element->next_position);
+	elemental_rotation(element, angle, position_offset, element->start_position);
 	draw_lines(img, element);
 	return ;
 }
@@ -66,9 +66,9 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 		while (++i < 2)
 		{
 			if (i)
-				ft_memcpy(mlx_win->element2->next_position,
+				ft_memcpy(mlx_win->element2->start_position,
 					&mlx_win->element1->elem_positions[1],
-					sizeof(*mlx_win->element2->next_position));
+					sizeof(*mlx_win->element2->start_position));
 			change_element_position(mlx_win->img, element_arrray[i],
 											mlx_win->angle, position_offset);
 		}
@@ -82,6 +82,6 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 	}
 	else
 		ft_printf("keycode: %#x\n", keycode);
-	ft_memdel((void **)position_offset);
+	ft_memdel((void **)&position_offset);
 	return (0);
 }

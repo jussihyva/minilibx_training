@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 16:03:03 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 20:24:36 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static void		release_element(t_element *element)
 {
 	ft_memdel((void **)&element->elem_size);
 	ft_memdel((void **)&element->elem_positions);
-	ft_memdel((void **)&element->next_position);
+	ft_memdel((void **)&element->start_position);
 	ft_memdel((void **)&element->elem_start_positions);
 	ft_memdel((void **)&element->elem_lines);
 	ft_memdel((void **)&element->angle);
@@ -53,6 +53,7 @@ void			release_mlx_win(t_mlx_win **mlx_win)
 	mlx_destroy_window((*mlx_win)->mlx, (*mlx_win)->win);
 	mlx_destroy_display((*mlx_win)->mlx);
 	ft_memdel((void **)&(*mlx_win)->mlx);
+	ft_memdel((void **)&(*mlx_win)->img_start_position);
 	ft_memdel((void **)&(*mlx_win)->angle);
 	ft_memdel((void **)mlx_win);
 	release_rotation_matrix(g_z_rotation_matrix, g_z_is_rotation_matrix);

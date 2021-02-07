@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 19:07:41 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 20:26:27 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int				main(int argc, char **argv)
 	x_len = 600;
 	y_len = 600;
 	mlx_win = (t_mlx_win *)ft_memalloc(sizeof(*mlx_win));
-	mlx_win->img_next_position =
-				(t_position *)ft_memalloc(sizeof(*mlx_win->img_next_position));
+	mlx_win->img_start_position =
+				(t_position *)ft_memalloc(sizeof(*mlx_win->img_start_position));
 	mlx_win->render_action = e_no_action;
 	mlx_win->angle = read_cmd_arguments(argc, argv);
 	mlx_win->mlx = mlx_init();
@@ -35,12 +35,8 @@ int				main(int argc, char **argv)
 	set_position(&elem_start_position, 0, 0, 0);
 	mlx_win->element1 = create_element(mlx_win, &elem_start_position,
 															position_offset);
-	ft_memcpy(&mlx_win->img_start_position, &elem_start_position,
-										sizeof(mlx_win->img_start_position));
-	ft_memcpy(mlx_win->img_next_position, &elem_start_position,
-										sizeof(*mlx_win->img_next_position));
-	mlx_win->img_current_position.x = -1;
-	mlx_win->img_current_position.y = -1;
+	ft_memcpy(mlx_win->img_start_position, &elem_start_position,
+										sizeof(*mlx_win->img_start_position));
 	ft_printf("Start X: %d\n", mlx_win->element1->elem_positions[1].x);
 	ft_printf("Start Y: %d\n", mlx_win->element1->elem_positions[1].y);
 	ft_printf("Start Z: %d\n", mlx_win->element1->elem_positions[1].z);
@@ -59,6 +55,6 @@ int				main(int argc, char **argv)
 	mlx_loop_hook(mlx_win->mlx, render_frame, mlx_win);
 	mlx_loop(mlx_win->mlx);
 	release_mlx_win(&mlx_win);
-	ft_memdel((void **)position_offset);
+	ft_memdel((void **)&position_offset);
 	return (0);
 }

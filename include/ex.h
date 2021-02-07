@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 19:01:16 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 20:24:09 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ typedef struct	s_element
 	int			bits_per_pixel;
 	int			line_length;
 	int			endian;
-	t_position	start_position;
-	t_position	current_position;
-	t_position	*next_position;
+	t_position	*start_position;
 }				t_element;
 
 typedef struct	s_mlx_win
@@ -89,9 +87,7 @@ typedef struct	s_mlx_win
 	t_element			*element2;
 	t_position			*angle;
 	t_img				*img;
-	t_position			img_start_position;
-	t_position			img_current_position;
-	t_position			*img_next_position;
+	t_position			*img_start_position;
 	t_img				*empty_img;
 	t_render_action		render_action;
 }				t_mlx_win;

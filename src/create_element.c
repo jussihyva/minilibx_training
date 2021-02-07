@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 19:00:26 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 20:16:26 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static t_elem_size	*set_element_size(void)
 	elem_size = (t_elem_size *)ft_memalloc(sizeof(*elem_size));
 	elem_size->x = 50;
 	elem_size->y = 50;
-	elem_size->z = 50;
+	elem_size->z = 100;
 	return (elem_size);
 }
 
@@ -62,8 +62,8 @@ t_element			*create_element(t_mlx_win *mlx_win,
 
 	element = (t_element *)ft_memalloc(sizeof(*element));
 	element->angle = (t_position *)ft_memalloc(sizeof(*element->angle));
-	element->next_position =
-					(t_position *)ft_memalloc(sizeof(*element->next_position));
+	element->start_position =
+					(t_position *)ft_memalloc(sizeof(*element->start_position));
 	element->elem_size = set_element_size();
 	ft_memcpy(element->angle, mlx_win->angle, sizeof(*mlx_win->angle));
 	element->elem_positions = set_elem_positions(element->elem_size);
@@ -74,11 +74,7 @@ t_element			*create_element(t_mlx_win *mlx_win,
 					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
 	elemental_rotation(element, element->angle, position_offset, start_position);
 	element->elem_lines = set_elem_lines(element->elem_positions);
-	ft_memcpy(&element->start_position, start_position,
-													sizeof(*start_position));
-	ft_memcpy(element->next_position, start_position,
-											sizeof(*element->next_position));
-	element->current_position.x = -1;
-	element->current_position.y = -1;
+	ft_memcpy(element->start_position, start_position,
+											sizeof(*element->start_position));
 	return (element);
 }
