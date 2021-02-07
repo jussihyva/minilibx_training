@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 19:07:17 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/07 19:55:46 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int				button_press(int keycode, int x, int y, t_mlx_win *mlx_win)
 void			change_element_position(t_img *img, t_element *element,
 								t_position *angle, t_position *position_offset)
 {
-	elemental_rotation(element, angle, position_offset, &element->start_position);
+	elemental_rotation(element, angle, position_offset, element->next_position);
 	draw_lines(img, element);
 	return ;
 }
