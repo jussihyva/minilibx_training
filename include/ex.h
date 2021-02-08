@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 21:42:31 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/08 07:42:35 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "mlx_int.h"
 # include "ft_printf.h"
 # include <math.h>
+# include <fcntl.h>
 
 # define PI							3.141592654
 # define NUM_OF_ELEM_POSITIONS		8
