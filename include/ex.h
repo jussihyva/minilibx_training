@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/08 07:42:35 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/08 13:01:36 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include "mlx_int.h"
 # include "ft_printf.h"
 # include <math.h>
+# include <sys/types.h>
+# include <sys/stat.h>
 # include <fcntl.h>
 
 # define PI							3.141592654
@@ -34,12 +36,25 @@ typedef struct	s_xy_values
 	int			y;
 }				t_xy_values;
 
+typedef struct	s_map_file_data
+{
+	int				**map;
+	t_xy_values		*map_size;
+
+}				t_map_file_data;
+
 typedef struct	s_position
 {
 	int			x;
 	int			y;
 	int			z;
 }				t_position;
+
+typedef struct	s_input
+{
+	t_map_file_data		*map_file_data;
+	t_position			*angle;
+}				t_input;
 
 typedef enum	e_render_action
 {
@@ -117,10 +132,11 @@ void			elemental_rotation(t_element *element, t_position *angle,
 					t_position *position_offset, t_position *start_position);
 void			draw_lines(t_img *img, t_element *element);
 void			set_position(t_position *position, int x, int y, int z);
-t_position		*read_cmd_arguments(int argc, char **argv);
+t_input			*read_cmd_arguments(int argc, char **argv);
 void			bresenham_draw_line(t_img *img, t_elem_line *line,
 											t_position *elem_position_offset);
 double			ft_radian(double angle_degree);
 int				ft_max(int nbr1, int nbr2);
+void			release_input_data(t_input **input);
 
 #endif
