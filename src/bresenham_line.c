@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 16:19:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/07 12:27:56 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/08 18:05:39 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ static void		draw_low(int *img_buffer, t_drawing_data *drawing_data)
 		if ((plot_pos.x / 2) % 2 || drawing_data->line_type == 0)
 			img_buffer[(plot_pos.y * drawing_data->size_line) +
 											plot_pos.x] = drawing_data->color;
+		else
+			img_buffer[(plot_pos.y * drawing_data->size_line) +
+											plot_pos.x] = 0;
 		if (difference > 0)
 		{
 			plot_pos.y += step;
@@ -59,6 +62,9 @@ static void		draw_high(int *img_buffer, t_drawing_data *drawing_data)
 		if ((plot_pos.y / 2) % 2 || drawing_data->line_type == 0)
 			img_buffer[(plot_pos.y * drawing_data->size_line) +
 											plot_pos.x] = drawing_data->color;
+		else
+			img_buffer[(plot_pos.y * drawing_data->size_line) +
+											plot_pos.x] = 0;
 		if (difference > 0)
 		{
 			plot_pos.x += step;

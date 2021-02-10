@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:01:55 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/08 13:23:00 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/08 18:14:12 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,9 @@ static int				open_fd(char *map_file_path)
 
 	if ((fd = open(map_file_path, O_RDONLY)) == -1)
 	{
-		ft_printf("Opening of a file (%s) failed! errno=%d. Detail info: %s\n",
-										map_file_path, errno, strerror(errno));
+		ft_printf("%s (%s) failed! errno=%d. %s: %s (File:%s line:%d))\n",
+					"Opening of a file", map_file_path, errno, "Detail info",
+					strerror(errno), __FILE__, __LINE__);
 		exit(42);
 	}
 	return (fd);

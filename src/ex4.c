@@ -6,11 +6,40 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/08 12:06:58 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/10 08:17:52 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
+
+static t_element		***create_element_map(t_mlx_win *mlx_win,
+												t_map_file_data *map_file_data)
+{
+	t_element		***element_map;
+	t_position		elem_start_position;
+	t_position		elem_size;
+	t_position		*position_offset;
+	int				i;
+	int				j;
+
+	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
+	set_position(&elem_start_position, 0, 0, 0);
+	set_position(&elem_size, 50, 50, 0);
+	element_map = (t_element ***)ft_memalloc(sizeof(*element_map) *
+													map_file_data->map_size->y);
+	i = -1;
+	while (++i < map_file_data->map_size->y)
+	{
+		element_map[i] = (t_element **)ft_memalloc(sizeof(*element_map[i]) *
+													map_file_data->map_size->x);
+		j = -1;
+		while (++j < map_file_data->map_size->x)
+			element_map[i][j] = create_element(mlx_win, &elem_start_position,
+												position_offset, &elem_size);
+	}
+	ft_memdel((void **)&position_offset);
+	return (element_map);
+}
 
 int				main(int argc, char **argv)
 {
@@ -19,10 +48,11 @@ int				main(int argc, char **argv)
 	t_position			elem_size;
 	t_position			*position_offset;
 	t_xy_values			img_size;
-	t_map_file_data		*map_file_data;
 	t_input				*input;
+	int					**map;
+	int					i;
+	int					j;
 
-	map_file_data = NULL;
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
 	img_size.x = 600;
 	img_size.y = 600;
@@ -33,6 +63,17 @@ int				main(int argc, char **argv)
 	input = read_cmd_arguments(argc, argv);
 	mlx_win->angle = input->angle;
 	mlx_win->angle_step = 5;
+	map = input->map_file_data->map;
+	mlx_win->element_map = create_element_map(mlx_win, input->map_file_data);
+	mlx_win->element_map_size = input->map_file_data->map_size;
+	i = -1;
+	while (++i < input->map_file_data->map_size->y)
+	{
+		j = -1;
+		while (++j < input->map_file_data->map_size->x)
+			ft_printf(" %3d", map[i][j]);
+		ft_printf("\n");
+	}
 	mlx_win->mlx = mlx_init();
 	initialize_window(mlx_win, "Minilibx training 4 (ex4)");
 	mlx_win->empty_img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
