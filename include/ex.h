@@ -6,7 +6,7 @@
 /*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/10 07:52:04 by juhani           ###   ########.fr       */
+/*   Updated: 2021/02/10 13:45:08 by juhani           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct	s_mlx_win
 	void				*win;
 	t_element			*element1;
 	t_element			*element2;
+	t_position			*first_elem_start_position;
 	t_element			***element_map;
 	t_xy_values			*element_map_size;
 	t_position			*angle;
