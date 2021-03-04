@@ -40,8 +40,7 @@ CC				=	clang
 C_FLAGS			=	-g -Wall -Wextra -Werror $(INCLUDES)
 LD_FLAGS		=	-std=gnu99 \
 					-Llib \
-					-lftprintf -lft -lmlx_Linux -lGLEW -lglfw -lGL \
-					-lm -lXext -lX11
+					-lftprintf -lft -lmlx_Linux -lGLEW -lGL -lm -lXext -lX11
 
 # C (Source code) and H (Header) files
 SRC_C_FILES		=	hook_functions1.c hook_functions2.c close_win.c \
