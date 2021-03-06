@@ -6,7 +6,7 @@
 #    By: juhani <juhani@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/02/07 09:42:05 by juhani           ###   ########.fr        #
+#    Updated: 2021/03/06 14:39:34 by juhani           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJ				=	obj
 SRC				=	src
 INCLUDE			=	include
 FOLDERS			=	$(LIB) $(BIN) $(DATA) $(OBJ) $(SRC) $(INCLUDE)
-INCLUDES		=	-I $(INCLUDE) -I $(LIB) -I $(LIB)/minilibx-linux
+INCLUDES		=	-I $(INCLUDE) -I $(LIB)
 
 # Compiler and linking parameters
 CC				=	clang
@@ -66,6 +66,7 @@ GREEN			=	\033[0;32m
 YELLOW			=	\033[0;33m
 END				=	\033[0m
 
+.PHONY: all
 all: $(FOLDERS) $(C_FILES) libraries $(APP_FILES)
 	@echo "$(GREEN)Done!$(END)"
 
@@ -81,23 +82,36 @@ $(FOLDERS):
 $(C_FILES):
 	touch $@
 
+.PHONY: libraries
 libraries:
 	@make -C ${LIB}
 
+.PHONY: libraries_re
+libraries_re:
+	@make -C ${LIB} re
+
+.PHONY: libraries_norm
+libraries_norm:
+	@make -C ${LIB} norm
+
+.PHONY: run
 run:
 	valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all $(BIN)/$(NAME_4) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
 
+.PHONY: clean
 clean:
-#	@make -C ${LIB} clean
+	@make -C ${LIB} clean
 	rm -f $(O_FILES)
 
+.PHONY: fclean
 fclean: clean
-#	@make -C ${LIB} fclean
+	@make -C ${LIB} fclean
 	rm -f $(NAME_1)
 
+.PHONY: re
 re: fclean all
 
+.PHONY: norm
 norm:
-	norminette.rb $(SRC)/* $(INCLUDE)/*
-
-.PHONY: all clean fclean re norm libraries
+	@make -C ${LIB} norm
+	norminette $(SRC)/* $(INCLUDE)/*
