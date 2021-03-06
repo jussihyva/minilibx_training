@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   release_mlx_win.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/10 14:14:55 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/06 23:06:01 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void			release_mlx_win(t_mlx_win **mlx_win)
 	mlx_destroy_display((*mlx_win)->mlx);
 	ft_memdel((void **)&(*mlx_win)->mlx);
 	ft_memdel((void **)&(*mlx_win)->img_start_position);
-	ft_memdel((void **)&(*mlx_win)->angle);
 	ft_memdel((void **)&(*mlx_win)->first_elem_start_position);
 	ft_memdel((void **)mlx_win);
 	release_rotation_matrix(g_z_rotation_matrix, g_z_is_rotation_matrix);
@@ -89,13 +88,18 @@ void			release_input_data(t_input **input)
 	int			i;
 
 	i = -1;
-	while (++i < (*input)->map_file_data->map_size->y)
+	if ((*input)->map)
 	{
-		ft_memdel((void **)&(*input)->map_file_data->map[i]);
+		while (++i < (*input)->map->map_size->y)
+		{
+			ft_memdel((void **)&(*input)->map->elem_altitude[i]);
+		}
+		ft_memdel((void **)&(*input)->map->elem_altitude);
+		ft_memdel((void **)&(*input)->map->map_size);
+		ft_memdel((void **)&(*input)->map);
 	}
-	ft_memdel((void **)&(*input)->map_file_data->map);
-	ft_memdel((void **)&(*input)->map_file_data->map_size);
-	ft_memdel((void **)&(*input)->map_file_data);
+	ft_memdel((void **)&(*input)->cmd_args);
+	ft_memdel((void **)&(*input)->angle);
 	ft_memdel((void **)input);
 	return ;
 }

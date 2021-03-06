@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: juhani <juhani@student.42.fr>              +#+  +:+       +#+         #
+#    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/03/06 14:39:34 by juhani           ###   ########.fr        #
+#    Updated: 2021/03/06 19:53:43 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ CC				=	clang
 C_FLAGS			=	-g -Wall -Wextra -Werror $(INCLUDES)
 LD_FLAGS		=	-std=gnu99 \
 					-Llib \
-					-lftprintf -lft -lmlx_Linux -lGLEW -lGL -lm -lXext -lX11
+					-lft_addons -lftprintf -lft -lmlx_Linux -lGLEW -lGL -lm -lXext -lX11
 
 # C (Source code) and H (Header) files
 SRC_C_FILES		=	hook_functions1.c hook_functions2.c close_win.c \
@@ -49,7 +49,7 @@ SRC_C_FILES		=	hook_functions1.c hook_functions2.c close_win.c \
 					initialize_window.c set_elem_positions.c \
 					elemental_rotation.c draw_element_lines.c \
 					read_cmd_arguments.c bresenham_line.c \
-					ft_radian.c ft_max.c
+					argp_parse.c
 SRC_H_FILES		=	ex.h
 
 # Path folders for H, C, O and APP files
@@ -95,7 +95,7 @@ libraries_norm:
 	@make -C ${LIB} norm
 
 .PHONY: run
-run:
+run: all
 	valgrind -s --tool=memcheck --leak-check=full --show-leak-kinds=all $(BIN)/$(NAME_4) -f $(DATA)/maps/42.fdf -P $(PROJECTION)
 
 .PHONY: clean

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   elemental_rotation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/07 20:04:32 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/06 19:45:25 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,12 +208,15 @@ void			elemental_rotation(t_element *element, t_position *angle,
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
 		rotation(&(elem_positions[i]), angle);
-		position_offset->x = ft_max(position_offset->x, -(elem_positions[i].x +
-															start_position->x));
-		position_offset->y = ft_max(position_offset->y, -(elem_positions[i].y +
-															start_position->y));
-		position_offset->z = ft_max(position_offset->z, -(elem_positions[i].z +
-															start_position->z));
+		position_offset->x = ft_max_int(position_offset->x,
+														-(elem_positions[i].x +
+														start_position->x));
+		position_offset->y = ft_max_int(position_offset->y,
+														-(elem_positions[i].y +
+														start_position->y));
+		position_offset->z = ft_max_int(position_offset->z,
+														-(elem_positions[i].z +
+														start_position->z));
 	}
 	print_element_data(element, angle);
 	return ;

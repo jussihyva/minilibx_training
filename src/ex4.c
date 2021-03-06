@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ex4.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/10 14:10:46 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/06 23:09:20 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
 
-static t_element		***create_element_map(t_mlx_win *mlx_win,
-												t_map_file_data *map_file_data)
+static t_element	***create_element_map(t_mlx_win *mlx_win, t_map *map)
 {
 	t_element		***element_map;
 	t_position		*elem_start_position;
@@ -28,15 +27,15 @@ static t_element		***create_element_map(t_mlx_win *mlx_win,
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
 	set_position(&elem_size, 50, 50, 0);
 	element_map = (t_element ***)ft_memalloc(sizeof(*element_map) *
-													map_file_data->map_size->y);
+													map->map_size->y);
 	i = -1;
 	elem_start_position = mlx_win->first_elem_start_position;
-	while (++i < map_file_data->map_size->y)
+	while (++i < map->map_size->y)
 	{
 		element_map[i] = (t_element **)ft_memalloc(sizeof(*element_map[i]) *
-													map_file_data->map_size->x);
+													map->map_size->x);
 		j = -1;
-		while (++j < map_file_data->map_size->x)
+		while (++j < map->map_size->x)
 		{
 			element_map[i][j] = create_element(mlx_win, elem_start_position,
 												position_offset, &elem_size);
@@ -48,7 +47,7 @@ static t_element		***create_element_map(t_mlx_win *mlx_win,
 	return (element_map);
 }
 
-int				main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
 	t_mlx_win			*mlx_win;
 	t_position			*elem_start_position;
@@ -56,10 +55,14 @@ int				main(int argc, char **argv)
 	t_position			*position_offset;
 	t_xy_values			img_size;
 	t_input				*input;
-	int					**map;
+	int					**elem_altitude;
 	int					i;
 	int					j;
 
+	if (!(input = read_cmd_arguments(argc, argv)))
+		return (42);
+	ft_printf("Map file: %s\n", input->cmd_args->map_file);
+	ft_printf("Protection type: %d\n", input->cmd_args->projection_type);
 	elem_start_position =
 						(t_position *)ft_memalloc(sizeof(*elem_start_position));
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
@@ -69,18 +72,17 @@ int				main(int argc, char **argv)
 	mlx_win->img_start_position =
 				(t_position *)ft_memalloc(sizeof(*mlx_win->img_start_position));
 	mlx_win->render_action = e_no_action;
-	input = read_cmd_arguments(argc, argv);
 	mlx_win->angle = input->angle;
 	mlx_win->angle_step = 5;
-	map = input->map_file_data->map;
-	mlx_win->element_map = create_element_map(mlx_win, input->map_file_data);
-	mlx_win->element_map_size = input->map_file_data->map_size;
+	elem_altitude = input->map->elem_altitude;
+	mlx_win->element_map = create_element_map(mlx_win, input->map);
+	mlx_win->element_map_size = input->map->map_size;
 	i = -1;
-	while (++i < input->map_file_data->map_size->y)
+	while (++i < input->map->map_size->y)
 	{
 		j = -1;
-		while (++j < input->map_file_data->map_size->x)
-			ft_printf(" %3d", map[i][j]);
+		while (++j < input->map->map_size->x)
+			ft_printf(" %3d", elem_altitude[i][j]);
 		ft_printf("\n");
 	}
 	mlx_win->mlx = mlx_init();

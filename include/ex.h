@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ex.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/10 13:45:08 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/06 23:05:25 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 # define EX_H
 # include "mlx.h"
 # include "mlx_int.h"
+# include "libft.h"
+# include "libft_addons.h"
 # include "ft_printf.h"
 # include <math.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 
-# define PI							3.141592654
 # define NUM_OF_ELEM_POSITIONS		8
 
 double	**g_z_rotation_matrix[360];
@@ -30,18 +31,27 @@ int		g_y_is_rotation_matrix[360];
 double	**g_x_rotation_matrix[360];
 int		g_x_is_rotation_matrix[360];
 
+typedef struct	s_cmd_args
+{
+	char		*map_file;
+	size_t		projection_type;
+	int			x;
+	int			y;
+	int			z;
+}				t_cmd_args;
+
 typedef struct	s_xy_values
 {
 	int			x;
 	int			y;
 }				t_xy_values;
 
-typedef struct	s_map_file_data
+typedef struct	s_map
 {
-	int				**map;
+	int				**elem_altitude;
 	t_xy_values		*map_size;
 
-}				t_map_file_data;
+}				t_map;
 
 typedef struct	s_position
 {
@@ -52,8 +62,9 @@ typedef struct	s_position
 
 typedef struct	s_input
 {
-	t_map_file_data		*map_file_data;
-	t_position			*angle;
+	t_cmd_args		*cmd_args;
+	t_map			*map;
+	t_position		*angle;
 }				t_input;
 
 typedef enum	e_render_action
@@ -138,8 +149,7 @@ void			set_position(t_position *position, int x, int y, int z);
 t_input			*read_cmd_arguments(int argc, char **argv);
 void			bresenham_draw_line(t_img *img, t_elem_line *line,
 											t_position *elem_position_offset);
-double			ft_radian(double angle_degree);
-int				ft_max(int nbr1, int nbr2);
 void			release_input_data(t_input **input);
+t_cmd_args		*argp_parse(int argc, char **argv);
 
 #endif
