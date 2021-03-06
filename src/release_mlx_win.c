@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/06 23:06:01 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 00:24:00 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ static void		release_element_map(t_element ***element_map,
 
 void			release_mlx_win(t_mlx_win **mlx_win)
 {
+	size_t		i;
+
 	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->empty_img);
 	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->img);
-	ft_memdel((void **)&(*mlx_win)->element1->start_position);
-	release_element(&(*mlx_win)->element1);
-	release_element(&(*mlx_win)->element2);
+	ft_memdel((void **)&(*mlx_win)->elem_array[0]->start_position);
+	i = -1;
+	while (++i < (*mlx_win)->num_of_elements)
+		release_element(&(*mlx_win)->elem_array[i]);
+	ft_memdel((void **)&(*mlx_win)->elem_array);
 	release_element_map((*mlx_win)->element_map, (*mlx_win)->element_map_size);
 	mlx_destroy_window((*mlx_win)->mlx, (*mlx_win)->win);
 	mlx_destroy_display((*mlx_win)->mlx);
