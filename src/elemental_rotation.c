@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/03/06 19:45:25 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 10:36:58 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,20 +178,21 @@ static size_t	line_len(t_position *elem_position1, t_position *elem_position2)
 
 static void		print_element_data(t_element *element, t_position *angle)
 {
-	t_position	*elem_positions;
+	t_position	*positions;
 	size_t		size54;
 	size_t		size57;
 	size_t		size51;
 
-	elem_positions = element->elem_positions;
-	size54 = line_len(&elem_positions[5], &elem_positions[4]);
-	size57 = line_len(&elem_positions[7], &elem_positions[5]);
-	size51 = line_len(&elem_positions[1], &elem_positions[5]);
-	ft_printf("ANGLE: X=%3d(%3d) Y=%3d(%3d) Z=%3d(%3d)",
-													angle->x, angle->x - 360,
-													angle->y, angle->y - 360,
-													angle->z, angle->z - 360);
-	ft_printf("SIZE: 5_4=%u 5_7=%u 5_1=%u\n", size54, size57, size51);
+	(void)angle;
+	positions = element->current_positions;
+	size54 = line_len(&positions[5], &positions[4]);
+	size57 = line_len(&positions[7], &positions[5]);
+	size51 = line_len(&positions[1], &positions[5]);
+	// ft_printf("ANGLE: X=%3d(%3d) Y=%3d(%3d) Z=%3d(%3d)",
+	// 												angle->x, angle->x - 360,
+	// 												angle->y, angle->y - 360,
+	// 												angle->z, angle->z - 360);
+	// ft_printf("SIZE: 5_4=%u 5_7=%u 5_1=%u\n", size54, size57, size51);
 	return ;
 }
 
@@ -199,23 +200,23 @@ void			elemental_rotation(t_element *element, t_position *angle,
 						t_position *position_offset, t_position *start_position)
 {
 	size_t		i;
-	t_position	*elem_positions;
+	t_position	*current_positions;
 
-	ft_memcpy(element->elem_positions, element->elem_start_positions,
-				sizeof(*element->elem_start_positions) * NUM_OF_ELEM_POSITIONS);
-	elem_positions = element->elem_positions;
+	ft_memcpy(element->current_positions, element->start_positions,
+				sizeof(*element->start_positions) * NUM_OF_ELEM_POSITIONS);
+	current_positions = element->current_positions;
 	i = -1;
 	while (++i < NUM_OF_ELEM_POSITIONS)
 	{
-		rotation(&(elem_positions[i]), angle);
+		rotation(&(current_positions[i]), angle);
 		position_offset->x = ft_max_int(position_offset->x,
-														-(elem_positions[i].x +
+														-(current_positions[i].x +
 														start_position->x));
 		position_offset->y = ft_max_int(position_offset->y,
-														-(elem_positions[i].y +
+														-(current_positions[i].y +
 														start_position->y));
 		position_offset->z = ft_max_int(position_offset->z,
-														-(elem_positions[i].z +
+														-(current_positions[i].z +
 														start_position->z));
 	}
 	print_element_data(element, angle);

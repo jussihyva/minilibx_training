@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 00:24:00 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 10:38:14 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ static void		release_element(t_element **element)
 {
 	if (*element)
 	{
-		ft_memdel((void **)&(*element)->elem_positions);
-		ft_memdel((void **)&(*element)->elem_start_positions);
+		ft_memdel((void **)&(*element)->current_positions);
+		ft_memdel((void **)&(*element)->start_positions);
 		ft_memdel((void **)&(*element)->elem_lines);
 		ft_memdel((void **)&(*element)->angle);
 		ft_memdel((void **)element);

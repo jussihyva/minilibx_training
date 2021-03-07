@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 00:02:12 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 10:35:51 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ typedef struct	s_element
 {
 	t_elem_size	elem_size;
 	t_position	*angle;
-	t_position	*elem_positions;
-	t_position	*elem_start_positions;
+	t_position	*current_positions;
+	t_position	*start_positions;
 	t_position	elem_position_offset;
 	t_elem_line	*elem_lines;
 	char		*addr;

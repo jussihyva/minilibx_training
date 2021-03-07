@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_element.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 03:44:46 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/10 14:05:37 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/07 10:48:33 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,13 @@ t_element			*create_element(t_mlx_win *mlx_win,
 	element->angle = (t_position *)ft_memalloc(sizeof(*element->angle));
 	ft_memcpy(&element->elem_size, elem_size, sizeof(*elem_size));
 	ft_memcpy(element->angle, mlx_win->angle, sizeof(*mlx_win->angle));
-	element->elem_positions = set_elem_positions(&element->elem_size);
-	element->elem_start_positions =
-			(t_position *)ft_memalloc(sizeof(*element->elem_start_positions) *
+	element->current_positions =
+			(t_position *)ft_memalloc(sizeof(*element->current_positions) *
 														NUM_OF_ELEM_POSITIONS);
-	ft_memcpy(element->elem_start_positions, element->elem_positions,
-					sizeof(*element->elem_positions) * NUM_OF_ELEM_POSITIONS);
+	element->start_positions = set_elem_positions(&element->elem_size);
 	elemental_rotation(element, element->angle, position_offset,
 																start_position);
-	element->elem_lines = set_elem_lines(element->elem_positions);
+	element->elem_lines = set_elem_lines(element->current_positions);
 	element->start_position = start_position;
 	return (element);
 }
