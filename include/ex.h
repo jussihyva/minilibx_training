@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 10:35:51 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:41:05 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,5 +151,6 @@ void			bresenham_draw_line(t_img *img, t_elem_line *line,
 											t_position *elem_position_offset);
 void			release_input_data(t_input **input);
 t_cmd_args		*argp_parse(int argc, char **argv);
+void			print_start_position(t_position *elem_start_position);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/03/07 10:36:58 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 15:49:24 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,5 +220,7 @@ void			elemental_rotation(t_element *element, t_position *angle,
 														start_position->z));
 	}
 	print_element_data(element, angle);
+	print_start_position(start_position);
+	print_start_position(position_offset);
 	return ;
 }

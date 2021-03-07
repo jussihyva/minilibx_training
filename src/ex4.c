@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 11:22:27 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 16:13:44 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,10 @@ static t_element	***create_element_map(t_mlx_win *mlx_win, t_map *map)
 	return (element_map);
 }
 
-static void		print_start_position(t_position *elem_start_position)
-{
-	ft_printf("Start postition: x= %d, y=%d, z=%d\n", elem_start_position->x,
-								elem_start_position->y, elem_start_position->z);
-	return ;
-}
-
 int					main(int argc, char **argv)
 {
 	t_mlx_win			*mlx_win;
-	t_position			*elem_start_position;
+	t_position			elem_start_position;
 	t_position			elem_size;
 	t_position			*position_offset;
 	t_xy_values			img_size;
@@ -71,8 +64,6 @@ int					main(int argc, char **argv)
 		return (42);
 	ft_printf("Map file: %s\n", input->cmd_args->map_file);
 	ft_printf("Protection type: %d\n", input->cmd_args->projection_type);
-	elem_start_position =
-						(t_position *)ft_memalloc(sizeof(*elem_start_position));
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
 	img_size.x = 600;
 	img_size.y = 600;
@@ -99,23 +90,23 @@ int					main(int argc, char **argv)
 	mlx_win->img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
 	mlx_win->num_of_elements = 4;
 	mlx_win->elem_array = (t_element **)ft_memalloc(sizeof(*mlx_win->elem_array) * mlx_win->num_of_elements);
-	set_position(elem_start_position, 0, 0, 0);
-	ft_memcpy(mlx_win->img_start_position, elem_start_position,
+	set_position(&elem_start_position, 0, 0, 0);
+	ft_memcpy(mlx_win->img_start_position, &elem_start_position,
 											sizeof(*mlx_win->img_start_position));
 	z = 0;
 	i = -1;
-	print_start_position(elem_start_position);
+	print_start_position(&elem_start_position);
 	while (++i < (int)mlx_win->num_of_elements)
 	{
 		set_position(&elem_size, 25, 25, z);
 		z += 25;
-		mlx_win->elem_array[i] = create_element(mlx_win, elem_start_position,
+		mlx_win->elem_array[i] = create_element(mlx_win, &elem_start_position,
 													position_offset, &elem_size);
 		ft_printf("Start X: %d\n", mlx_win->elem_array[i]->current_positions[1].x);
 		ft_printf("Start Y: %d\n", mlx_win->elem_array[i]->current_positions[1].y);
 		ft_printf("Start Z: %d\n", mlx_win->elem_array[i]->current_positions[1].z);
-		elem_start_position = &mlx_win->elem_array[i]->current_positions[1];
-		print_start_position(elem_start_position);
+		elem_start_position = mlx_win->elem_array[i]->current_positions[1];
+		print_start_position(&elem_start_position);
 	}
 	i = -1;
 	while (++i < (int)mlx_win->num_of_elements)

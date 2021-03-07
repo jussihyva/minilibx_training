@@ -6,7 +6,7 @@
 #    By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/21 11:50:38 by jkauppi           #+#    #+#              #
-#    Updated: 2021/03/06 19:53:43 by jkauppi          ###   ########.fr        #
+#    Updated: 2021/03/07 15:43:05 by jkauppi          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,7 @@ SRC_C_FILES		=	hook_functions1.c hook_functions2.c close_win.c \
 					initialize_window.c set_elem_positions.c \
 					elemental_rotation.c draw_element_lines.c \
 					read_cmd_arguments.c bresenham_line.c \
-					argp_parse.c
+					argp_parse.c log_events.c
 SRC_H_FILES		=	ex.h
 
 # Path folders for H, C, O and APP files
