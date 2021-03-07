@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 16:13:44 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 17:35:06 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,19 +105,17 @@ int					main(int argc, char **argv)
 		ft_printf("Start X: %d\n", mlx_win->elem_array[i]->current_positions[1].x);
 		ft_printf("Start Y: %d\n", mlx_win->elem_array[i]->current_positions[1].y);
 		ft_printf("Start Z: %d\n", mlx_win->elem_array[i]->current_positions[1].z);
-		elem_start_position = mlx_win->elem_array[i]->current_positions[1];
+		// ft_memcpy(&elem_start_position, &mlx_win->elem_array[i]->current_positions[1], sizeof(elem_start_position));
+		ft_memcpy(&elem_start_position, &mlx_win->elem_array[i]->current_positions[2], sizeof(elem_start_position));
+		// elem_start_position.x = 25 * (i + 1);
+		elem_start_position.y = 25 * (i + 1);
 		print_start_position(&elem_start_position);
 	}
 	i = -1;
 	while (++i < (int)mlx_win->num_of_elements)
 	{
-		mlx_win->elem_array[i]->elem_position_offset.x = position_offset->x;
-		mlx_win->elem_array[i]->elem_position_offset.y = position_offset->y;
-		if (i)
-		{
-			mlx_win->elem_array[i]->elem_position_offset.x += mlx_win->elem_array[i - 1]->current_positions[1].x;
-			mlx_win->elem_array[i]->elem_position_offset.y += mlx_win->elem_array[i - 1]->current_positions[1].y;
-		}
+		mlx_win->elem_array[i]->elem_position_offset.x = position_offset->x + mlx_win->elem_array[i]->start_position->x;
+		mlx_win->elem_array[i]->elem_position_offset.y = position_offset->y + mlx_win->elem_array[i]->start_position->y;
 		draw_lines(mlx_win->img, mlx_win->elem_array[i]);
 	}
 	mlx_win->render_action = e_put_image_to_window;

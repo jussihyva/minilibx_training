@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 11:22:01 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/07 17:36:12 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,23 +58,25 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 		while (++i < mlx_win->num_of_elements)
 		{
 			if (i)
+			{
+				// ft_memcpy(mlx_win->elem_array[i]->start_position,
+				// 	&mlx_win->elem_array[i - 1]->current_positions[1],
+				// 	sizeof(*mlx_win->elem_array[i]->start_position));
 				ft_memcpy(mlx_win->elem_array[i]->start_position,
-					&mlx_win->elem_array[i - 1]->current_positions[1],
+					&mlx_win->elem_array[i - 1]->current_positions[2],
 					sizeof(*mlx_win->elem_array[i]->start_position));
-			// mlx_win->elem_array[i]->start_position->x *= (i + 1);
+				mlx_win->elem_array[i]->start_position->x *= i;
+				mlx_win->elem_array[i]->start_position->y *= i;
+				mlx_win->elem_array[i]->start_position->z *= i;
+			}
 			elemental_rotation(mlx_win->elem_array[i], mlx_win->angle,
 							position_offset, mlx_win->elem_array[i]->start_position);
 		}
 		i = -1;
 		while (++i < mlx_win->num_of_elements)
 		{
-			mlx_win->elem_array[i]->elem_position_offset.x = position_offset->x;
-			mlx_win->elem_array[i]->elem_position_offset.y = position_offset->y;
-			if (i)
-			{
-				mlx_win->elem_array[i]->elem_position_offset.x += mlx_win->elem_array[i - 1]->current_positions[1].x;
-				mlx_win->elem_array[i]->elem_position_offset.y += mlx_win->elem_array[i - 1]->current_positions[1].y;
-			}
+			mlx_win->elem_array[i]->elem_position_offset.x = position_offset->x + mlx_win->elem_array[i]->start_position->x;
+			mlx_win->elem_array[i]->elem_position_offset.y = position_offset->y + mlx_win->elem_array[i]->start_position->y;
 			draw_lines(mlx_win->img, mlx_win->elem_array[i]);
 		}
 		mlx_win->render_action = e_put_image_to_window;
