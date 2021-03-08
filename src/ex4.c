@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 15:55:39 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 19:20:42 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,23 +102,22 @@ int					main(int argc, char **argv)
 	ft_printf("Map size x=%d\n", input->map->map_size->x);
 	ft_printf("Map size y=%d\n", input->map->map_size->y);
 	i = -1;
-	while (++i < 2)
+	while (++i < input->map->map_size->y)
 	{
-		z = 0;
 		j = -1;
 		while (++j < input->map->map_size->x)
 		{
+			z = input->map->elem_altitude[i][j];
 			set_position(&elem_size, 20, 20, z);
 			mlx_win->elem_table[i][j] = create_element(mlx_win, &elem_start_position,
 														position_offset, &elem_size);
 			elem_start_position.x = mlx_win->elem_table[i][j]->current_positions[1].x * (j + 1);
-			z = 20;
 		}
-		elem_start_position.x = mlx_win->elem_table[i][0]->current_positions[1].x * i;
+		elem_start_position.x = mlx_win->elem_table[i][0]->current_positions[2].x * i;
 		elem_start_position.y = mlx_win->elem_table[i][0]->current_positions[2].y * (i + 1);
 	}
 	i = -1;
-	while (++i < 2)
+	while (++i < input->map->map_size->y)
 	{
 		j = -1;
 		while (++j < input->map->map_size->x)

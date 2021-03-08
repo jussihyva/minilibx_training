@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 15:56:10 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 19:13:14 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,8 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 										2000 * (mlx_win->img->bpp / 8));
 		ft_memcpy(&elem_start_position, mlx_win->elem_table[0][0]->start_position, sizeof(elem_start_position));
 		i = -1;
-		while (++i < 2)
+		while (++i < mlx_win->element_map_size->y)
 		{
-			ft_memcpy(&elem_start_position, mlx_win->elem_table[i][0]->start_position, sizeof(elem_start_position));
 			j = -1;
 			while (++j < mlx_win->element_map_size->x)
 			{
@@ -73,9 +72,12 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 				elem_start_position.x += mlx_win->elem_table[i][j]->current_positions[1].x;
 				elem_start_position.y += mlx_win->elem_table[i][j]->current_positions[1].y;
 			}
+			ft_memcpy(&elem_start_position, &mlx_win->elem_table[i][0]->current_positions[2], sizeof(elem_start_position));
+			elem_start_position.x *= i;
+			elem_start_position.y *= i;
 		}
 		i = -1;
-		while (++i < 2)
+		while (++i < mlx_win->element_map_size->y)
 		{
 			j = -1;
 			while (++j < mlx_win->element_map_size->x)
