@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 17:35:06 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 12:07:59 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ int					main(int argc, char **argv)
 	ft_printf("Map file: %s\n", input->cmd_args->map_file);
 	ft_printf("Protection type: %d\n", input->cmd_args->projection_type);
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
-	img_size.x = 600;
-	img_size.y = 600;
+	img_size.x = 2000;
+	img_size.y = 2000;
 	mlx_win = (t_mlx_win *)ft_memalloc(sizeof(*mlx_win));
 	mlx_win->img_start_position =
 				(t_position *)ft_memalloc(sizeof(*mlx_win->img_start_position));
@@ -88,28 +88,36 @@ int					main(int argc, char **argv)
 	initialize_window(mlx_win, "Minilibx training 4 (ex4)");
 	mlx_win->empty_img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
 	mlx_win->img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
-	mlx_win->num_of_elements = 4;
-	mlx_win->elem_array = (t_element **)ft_memalloc(sizeof(*mlx_win->elem_array) * mlx_win->num_of_elements);
+	mlx_win->elem_array = (t_element **)ft_memalloc(sizeof(*mlx_win->elem_array)
+														* (input->map->map_size->x
+														* input->map->map_size->y));
 	set_position(&elem_start_position, 0, 0, 0);
 	ft_memcpy(mlx_win->img_start_position, &elem_start_position,
 											sizeof(*mlx_win->img_start_position));
-	z = 0;
+	ft_printf("Map size x=%d\n", input->map->map_size->x);
+	ft_printf("Map size y=%d\n", input->map->map_size->y);
+	mlx_win->num_of_elements = 0;
 	i = -1;
-	print_start_position(&elem_start_position);
-	while (++i < (int)mlx_win->num_of_elements)
+	while (++i < 1)
 	{
-		set_position(&elem_size, 25, 25, z);
-		z += 25;
-		mlx_win->elem_array[i] = create_element(mlx_win, &elem_start_position,
-													position_offset, &elem_size);
-		ft_printf("Start X: %d\n", mlx_win->elem_array[i]->current_positions[1].x);
-		ft_printf("Start Y: %d\n", mlx_win->elem_array[i]->current_positions[1].y);
-		ft_printf("Start Z: %d\n", mlx_win->elem_array[i]->current_positions[1].z);
-		// ft_memcpy(&elem_start_position, &mlx_win->elem_array[i]->current_positions[1], sizeof(elem_start_position));
-		ft_memcpy(&elem_start_position, &mlx_win->elem_array[i]->current_positions[2], sizeof(elem_start_position));
-		// elem_start_position.x = 25 * (i + 1);
-		elem_start_position.y = 25 * (i + 1);
-		print_start_position(&elem_start_position);
+		z = 0;
+		j = -1;
+		while (++j < input->map->map_size->x)
+		{
+			set_position(&elem_size, 20, 20, z);
+			mlx_win->elem_array[mlx_win->num_of_elements] = create_element(mlx_win, &elem_start_position,
+														position_offset, &elem_size);
+			// ft_printf("Start X: %d\n", mlx_win->elem_array[mlx_win->num_of_elements]->current_positions[1].x);
+			// ft_printf("Start Y: %d\n", mlx_win->elem_array[mlx_win->num_of_elements]->current_positions[1].y);
+			// ft_printf("Start Z: %d\n", mlx_win->elem_array[mlx_win->num_of_elements]->current_positions[1].z);
+			// ft_memcpy(&elem_start_position, &mlx_win->elem_array[i]->current_positions[1], sizeof(elem_start_position));
+			// ft_memcpy(&elem_start_position, &mlx_win->elem_array[mlx_win->num_of_elements]->current_positions[2], sizeof(elem_start_position));
+			elem_start_position.x = 20 * (j + 1);
+			z = 20;
+			mlx_win->num_of_elements++;
+		}
+		elem_start_position.x = 20 * (i + 1);
+		elem_start_position.y = 0;
 	}
 	i = -1;
 	while (++i < (int)mlx_win->num_of_elements)

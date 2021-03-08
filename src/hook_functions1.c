@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 17:36:12 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 12:05:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int				button_press(int keycode, int x, int y, t_mlx_win *mlx_win)
 int				key_press(int keycode, t_mlx_win *mlx_win)
 {
 	t_position		*position_offset;
-	size_t			i;
+	int				i;
+	int				j;
 
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
 	if (keycode == 65307)
@@ -52,28 +53,29 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 	else if (ft_strchr("asdzxc", keycode))
 	{
 		change_angle(keycode, mlx_win->angle, mlx_win->angle_step);
-		ft_bzero(mlx_win->img->data, 600 * mlx_win->img->size_line / 4 +
-										600 * (mlx_win->img->bpp / 8));
+		ft_bzero(mlx_win->img->data, 2000 * mlx_win->img->size_line / 4 +
+										2000 * (mlx_win->img->bpp / 8));
 		i = -1;
-		while (++i < mlx_win->num_of_elements)
+		while (++i < 1)
 		{
-			if (i)
+			j = -1;
+			while (++j < mlx_win->element_map_size->x)
 			{
-				// ft_memcpy(mlx_win->elem_array[i]->start_position,
-				// 	&mlx_win->elem_array[i - 1]->current_positions[1],
-				// 	sizeof(*mlx_win->elem_array[i]->start_position));
-				ft_memcpy(mlx_win->elem_array[i]->start_position,
-					&mlx_win->elem_array[i - 1]->current_positions[2],
-					sizeof(*mlx_win->elem_array[i]->start_position));
-				mlx_win->elem_array[i]->start_position->x *= i;
-				mlx_win->elem_array[i]->start_position->y *= i;
-				mlx_win->elem_array[i]->start_position->z *= i;
+				if (j)
+				{
+					ft_memcpy(mlx_win->elem_array[j]->start_position,
+						&mlx_win->elem_array[j - 1]->current_positions[1],
+						sizeof(*mlx_win->elem_array[j]->start_position));
+					mlx_win->elem_array[j]->start_position->x *= j;
+					mlx_win->elem_array[j]->start_position->y *= j;
+					mlx_win->elem_array[j]->start_position->z *= j;
+				}
+				elemental_rotation(mlx_win->elem_array[j], mlx_win->angle,
+								position_offset, mlx_win->elem_array[j]->start_position);
 			}
-			elemental_rotation(mlx_win->elem_array[i], mlx_win->angle,
-							position_offset, mlx_win->elem_array[i]->start_position);
 		}
 		i = -1;
-		while (++i < mlx_win->num_of_elements)
+		while (++i < (int)mlx_win->num_of_elements)
 		{
 			mlx_win->elem_array[i]->elem_position_offset.x = position_offset->x + mlx_win->elem_array[i]->start_position->x;
 			mlx_win->elem_array[i]->elem_position_offset.y = position_offset->y + mlx_win->elem_array[i]->start_position->y;
