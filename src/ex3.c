@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:33:41 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/06 23:58:53 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 15:55:05 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int				main(int argc, char **argv)
 	initialize_window(mlx_win, "Minilibx training 3 (ex3)");
 	set_position(&elem_start_position, 0, 0, 0);
 	set_position(&elem_size, 50, 50, 50);
-	mlx_win->elem_array[0] = create_element(mlx_win, &elem_start_position,
+	mlx_win->elem_table[0][0] = create_element(mlx_win, &elem_start_position,
 												position_offset, &elem_size);
 	mlx_loop_hook(mlx_win->mlx, render_frame, mlx_win);
 	mlx_loop(mlx_win->mlx);

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 15:41:05 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 15:54:47 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,7 @@ typedef struct	s_mlx_win
 {
 	void				*mlx;
 	void				*win;
-	t_element			**elem_array;
-	size_t				num_of_elements;
+	t_element			***elem_table;
 	t_position			*first_elem_start_position;
 	t_element			***element_map;
 	t_xy_values			*element_map_size;

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 19:41:05 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/07 16:07:03 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 15:56:16 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,15 +66,20 @@ static void		release_element_map(t_element ***element_map,
 
 void			release_mlx_win(t_mlx_win **mlx_win)
 {
-	size_t		i;
+	int			i;
+	int			j;
 
 	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->empty_img);
 	mlx_destroy_image((*mlx_win)->mlx, (*mlx_win)->img);
-	ft_memdel((void **)&(*mlx_win)->elem_array[0]->start_position);
 	i = -1;
-	while (++i < (*mlx_win)->num_of_elements)
-		release_element(&(*mlx_win)->elem_array[i]);
-	ft_memdel((void **)&(*mlx_win)->elem_array);
+	while (++i < (*mlx_win)->element_map_size->y)
+	{
+		j = -1;
+		while (++j < (*mlx_win)->element_map_size->x)
+			release_element(&(*mlx_win)->elem_table[i][j]);
+		ft_memdel((void **)&(*mlx_win)->elem_table[i]);
+	}
+	ft_memdel((void **)&(*mlx_win)->elem_table);
 	release_element_map((*mlx_win)->element_map, (*mlx_win)->element_map_size);
 	mlx_destroy_window((*mlx_win)->mlx, (*mlx_win)->win);
 	mlx_destroy_display((*mlx_win)->mlx);
