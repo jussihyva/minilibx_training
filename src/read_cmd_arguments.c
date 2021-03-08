@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/29 21:01:55 by juhani            #+#    #+#             */
-/*   Updated: 2021/03/06 23:06:28 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 23:36:23 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,14 @@ static t_map			*read_map_file(char *map_file)
 {
 	t_map			*map;
 	int				fd;
-	size_t			i;
+	int				i;
+	int				j;
 	char			*line;
 
 	line = NULL;
 	map = validate_map(map_file);
+	map->max_altitude = INT_MIN;
+	map->min_altitude = INT_MAX;
 	if ((fd = open_fd(map_file)) >= 0)
 	{
 		map->elem_altitude = (int **)ft_memalloc(sizeof(*map->elem_altitude) *
@@ -118,8 +121,15 @@ static t_map			*read_map_file(char *map_file)
 		i = -1;
 		while (ft_get_next_line(fd, &line) > 0)
 		{
-			map->elem_altitude[++i] = read_map_values(line,
+			i++;
+			map->elem_altitude[i] = read_map_values(line,
 													map->map_size->x);
+			j = -1;
+			while (++j < map->map_size->x)
+			{
+				map->min_altitude = ft_min_int(map->max_altitude, map->elem_altitude[i][j]);
+				map->max_altitude = ft_max_int(map->max_altitude, map->elem_altitude[i][j]);
+			}
 			ft_strdel(&line);
 		}
 		ft_strdel(&line);
@@ -136,6 +146,8 @@ t_input					*read_cmd_arguments(int argc, char **argv)
 	input->angle = (t_position *)ft_memalloc(sizeof(*input->angle));
 	if ((input->cmd_args = argp_parse(argc, argv)))
 	{
+		if (!input->cmd_args->elem_side_len)
+			input->cmd_args->elem_side_len = 20;
 		if (input->cmd_args->map_file)
 			input->map = read_map_file(input->cmd_args->map_file);
 		input->angle->x = input->cmd_args->x % 360;

@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 18:28:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/06 23:12:08 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 23:37:19 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,14 @@ static void		save_args(t_cmd_args *cmd_args, char *arg, char *arg_next,
 	j = 0;
 	while ((opt = arg[++j]))
 	{
-		if (ft_strchr("fPxyz", opt))
+		if (ft_strchr("fPSxyz", opt))
 		{
 			if (opt == 'f')
 				cmd_args->map_file = arg_next;
 			else if (opt == 'P')
 				cmd_args->projection_type = ft_atoi(arg_next);
+			else if (opt == 'S')
+				cmd_args->elem_side_len = ft_atoi(arg_next);
 			else if (opt == 'x')
 				cmd_args->x = ft_atoi(arg_next);
 			else if (opt == 'y')

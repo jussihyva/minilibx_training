@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 15:54:47 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 23:33:23 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct	s_cmd_args
 	int			x;
 	int			y;
 	int			z;
+	int			elem_side_len;
 }				t_cmd_args;
 
 typedef struct	s_xy_values
@@ -49,6 +50,8 @@ typedef struct	s_xy_values
 typedef struct	s_map
 {
 	int				**elem_altitude;
+	int				max_altitude;
+	int				min_altitude;
 	t_xy_values		*map_size;
 
 }				t_map;
@@ -90,11 +93,11 @@ typedef struct	s_elem_line
 
 typedef struct	s_drawing_data
 {
-	int			color;
-	int			size_line;
-	t_position	start;
-	t_position	end;
-	int			line_type;
+	unsigned int	color;
+	int				size_line;
+	t_position		start;
+	t_position		end;
+	int				line_type;
 }				t_drawing_data;
 
 typedef struct	s_element
@@ -125,6 +128,7 @@ typedef struct	s_mlx_win
 	t_img				*img;
 	t_position			*img_start_position;
 	t_img				*empty_img;
+	t_xy_values			img_size;
 	t_render_action		render_action;
 }				t_mlx_win;
 

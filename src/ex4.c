@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 19:20:42 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 23:39:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int					main(int argc, char **argv)
 	t_position			elem_start_position;
 	t_position			elem_size;
 	t_position			*position_offset;
-	t_xy_values			img_size;
 	t_input				*input;
 	int					**elem_altitude;
 	int					i;
@@ -65,9 +64,9 @@ int					main(int argc, char **argv)
 	ft_printf("Map file: %s\n", input->cmd_args->map_file);
 	ft_printf("Protection type: %d\n", input->cmd_args->projection_type);
 	position_offset = (t_position *)ft_memalloc(sizeof(*position_offset));
-	img_size.x = 2000;
-	img_size.y = 2000;
 	mlx_win = (t_mlx_win *)ft_memalloc(sizeof(*mlx_win));
+	mlx_win->img_size.x = 4000;
+	mlx_win->img_size.y = 4000;
 	mlx_win->img_start_position =
 				(t_position *)ft_memalloc(sizeof(*mlx_win->img_start_position));
 	mlx_win->render_action = e_no_action;
@@ -86,8 +85,8 @@ int					main(int argc, char **argv)
 	}
 	mlx_win->mlx = mlx_init();
 	initialize_window(mlx_win, "Minilibx training 4 (ex4)");
-	mlx_win->empty_img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
-	mlx_win->img = mlx_new_image(mlx_win->mlx, img_size.x, img_size.y);
+	mlx_win->empty_img = mlx_new_image(mlx_win->mlx, mlx_win->img_size.x, mlx_win->img_size.y);
+	mlx_win->img = mlx_new_image(mlx_win->mlx, mlx_win->img_size.x, mlx_win->img_size.y);
 	mlx_win->elem_table = (t_element ***)ft_memalloc(sizeof(**mlx_win->elem_table)
 													* input->map->map_size->y);
 	i = -1;
@@ -107,8 +106,8 @@ int					main(int argc, char **argv)
 		j = -1;
 		while (++j < input->map->map_size->x)
 		{
-			z = input->map->elem_altitude[i][j];
-			set_position(&elem_size, 20, 20, z);
+			z = ft_abs(input->map->elem_altitude[i][j]);
+			set_position(&elem_size, input->cmd_args->elem_side_len, input->cmd_args->elem_side_len, z);
 			mlx_win->elem_table[i][j] = create_element(mlx_win, &elem_start_position,
 														position_offset, &elem_size);
 			elem_start_position.x = mlx_win->elem_table[i][j]->current_positions[1].x * (j + 1);

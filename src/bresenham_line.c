@@ -3,21 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   bresenham_line.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/23 16:19:56 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/02/08 18:05:39 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/08 23:02:14 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ex.h"
 
-static void		draw_low(int *img_buffer, t_drawing_data *drawing_data)
+static void		draw_low(unsigned int *img_buffer, t_drawing_data *drawing_data)
 {
 	t_elem_size		delta;
 	int				difference;
 	t_position		plot_pos;
 	int				step;
+	int				plot_index;
 
 	delta.x = ft_abs(drawing_data->end.x - drawing_data->start.x);
 	delta.y = ft_abs(drawing_data->end.y - drawing_data->start.y);
@@ -27,12 +28,14 @@ static void		draw_low(int *img_buffer, t_drawing_data *drawing_data)
 	plot_pos.x = drawing_data->start.x;
 	while (plot_pos.x <= drawing_data->end.x)
 	{
-		if ((plot_pos.x / 2) % 2 || drawing_data->line_type == 0)
-			img_buffer[(plot_pos.y * drawing_data->size_line) +
-											plot_pos.x] = drawing_data->color;
-		else
-			img_buffer[(plot_pos.y * drawing_data->size_line) +
-											plot_pos.x] = 0;
+		plot_index = (plot_pos.y * drawing_data->size_line) + plot_pos.x;
+		if (img_buffer[plot_index] < drawing_data->color)
+		{
+			if ((plot_pos.x / 2) % 2 || drawing_data->line_type == 0)
+				img_buffer[plot_index] = drawing_data->color;
+			else
+				img_buffer[plot_index] = 0;
+		}
 		if (difference > 0)
 		{
 			plot_pos.y += step;
@@ -44,12 +47,13 @@ static void		draw_low(int *img_buffer, t_drawing_data *drawing_data)
 	return ;
 }
 
-static void		draw_high(int *img_buffer, t_drawing_data *drawing_data)
+static void		draw_high(unsigned int *img_buffer, t_drawing_data *drawing_data)
 {
 	t_elem_size		delta;
 	int				difference;
 	t_position		plot_pos;
 	int				step;
+	int				plot_index;
 
 	delta.x = ft_abs(drawing_data->end.x - drawing_data->start.x);
 	delta.y = ft_abs(drawing_data->end.y - drawing_data->start.y);
@@ -59,12 +63,14 @@ static void		draw_high(int *img_buffer, t_drawing_data *drawing_data)
 	plot_pos.x = drawing_data->start.x;
 	while (plot_pos.y <= drawing_data->end.y)
 	{
-		if ((plot_pos.y / 2) % 2 || drawing_data->line_type == 0)
-			img_buffer[(plot_pos.y * drawing_data->size_line) +
-											plot_pos.x] = drawing_data->color;
-		else
-			img_buffer[(plot_pos.y * drawing_data->size_line) +
-											plot_pos.x] = 0;
+		plot_index = (plot_pos.y * drawing_data->size_line) + plot_pos.x;
+		if (img_buffer[plot_index] < drawing_data->color)
+		{
+			if ((plot_pos.y / 2) % 2 || drawing_data->line_type == 0)
+				img_buffer[plot_index] = drawing_data->color;
+			else
+				img_buffer[plot_index] = 0;
+		}
 		if (difference > 0)
 		{
 			plot_pos.x += step;
@@ -118,8 +124,8 @@ void			bresenham_draw_line(t_img *img, t_elem_line *line,
 	}
 	add_offset(&drawing_data, elem_position_offset);
 	if (delta_y < delta_x)
-		draw_low((int *)img->data, &drawing_data);
+		draw_low((unsigned int *)img->data, &drawing_data);
 	else
-		draw_high((int *)img->data, &drawing_data);
+		draw_high((unsigned int *)img->data, &drawing_data);
 	return ;
 }

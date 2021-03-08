@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 12:47:12 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 19:13:14 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 23:15:03 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ int				key_press(int keycode, t_mlx_win *mlx_win)
 	else if (ft_strchr("asdzxc", keycode))
 	{
 		change_angle(keycode, mlx_win->angle, mlx_win->angle_step);
-		ft_bzero(mlx_win->img->data, 2000 * mlx_win->img->size_line / 4 +
-										2000 * (mlx_win->img->bpp / 8));
+		ft_bzero(mlx_win->img->data, mlx_win->img_size.y * mlx_win->img->size_line / 4 +
+										mlx_win->img_size.x * (mlx_win->img->bpp / 8));
 		ft_memcpy(&elem_start_position, mlx_win->elem_table[0][0]->start_position, sizeof(elem_start_position));
 		i = -1;
 		while (++i < mlx_win->element_map_size->y)

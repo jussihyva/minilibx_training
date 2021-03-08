@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/06 14:53:13 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/06 19:51:52 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/08 20:24:33 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,6 @@
 
 double			ft_radian(double angle_degree);
 int				ft_max_int(int nbr1, int nbr2);
+int				ft_min_int(int nbr1, int nbr2);
 
 #endif
