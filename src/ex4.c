@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 23:39:50 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/09 13:24:14 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static t_element	***create_element_map(t_mlx_win *mlx_win, t_map *map)
 	set_position(&elem_size, 25, 25, 25);
 	element_map = (t_element ***)ft_memalloc(sizeof(*element_map) *
 													map->map_size->y);
+	return (element_map);
 	i = -1;
 	elem_start_position = mlx_win->first_elem_start_position;
 	while (++i < map->map_size->y)
@@ -106,7 +107,7 @@ int					main(int argc, char **argv)
 		j = -1;
 		while (++j < input->map->map_size->x)
 		{
-			z = ft_abs(input->map->elem_altitude[i][j]);
+			z = (input->map->elem_altitude[i][j]);
 			set_position(&elem_size, input->cmd_args->elem_side_len, input->cmd_args->elem_side_len, z);
 			mlx_win->elem_table[i][j] = create_element(mlx_win, &elem_start_position,
 														position_offset, &elem_size);

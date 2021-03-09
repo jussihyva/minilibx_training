@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hook_functions2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: juhani <juhani@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/07 09:42:56 by juhani            #+#    #+#             */
-/*   Updated: 2021/02/07 09:43:12 by juhani           ###   ########.fr       */
+/*   Updated: 2021/03/09 12:30:40 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int				motion_notify(int x, int y, t_mlx_win *mlx_win)
 {
 	(void)mlx_win;
-	ft_printf("Mouse location: x:%d, y:%d\n", x, y);
+	(void)x;
+	(void)y;
+	// ft_printf("Mouse location: x:%d, y:%d\n", x, y);
 	return (0);
 }
 
