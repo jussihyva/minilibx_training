@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/21 20:46:08 by juhani            #+#    #+#             */
-/*   Updated: 2021/03/08 10:43:39 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/09 13:49:50 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,18 +121,18 @@ static double	**get_x_rotation_matrix(int angle)
 	return (rotation_matrix);
 }
 
-static void		matrix_vector_multiply(double **matrix, double *vector,
-															double *new_vector)
+static void		ft_matrix_x_vector_double(size_t rows, size_t columns,
+							double **matrix, double *vector, double *new_vector)
 {
 	size_t			i;
 	size_t			j;
 
 	i = -1;
-	while (++i < 3)
+	while (++i < rows)
 	{
-		j = -1;
 		new_vector[i] = 0;
-		while (++j < 3)
+		j = -1;
+		while (++j < columns)
 			new_vector[i] += matrix[i][j] * vector[j];
 	}
 	return ;
@@ -140,27 +140,29 @@ static void		matrix_vector_multiply(double **matrix, double *vector,
 
 static void		rotation(t_position *elem_position, t_position *angle)
 {
-	double			elem_position_vector[3];
-	double			new_elem_position_vector[3];
-	double			**rotation_matrix;
+	static size_t			vector_size = 3;
+	static t_matrix_size	matrix_size = {3, 3};
+	double					elem_position_vector[vector_size];
+	double					new_elem_position_vector[vector_size];
+	double					**rotation_matrix;
 
 	elem_position_vector[0] = elem_position->x;
 	elem_position_vector[1] = elem_position->y;
 	elem_position_vector[2] = elem_position->z;
 	rotation_matrix = get_z_rotation_matrix(angle->z);
-	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+	ft_matrix_x_vector_double(matrix_size.rows, matrix_size.columns, rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
 	elem_position_vector[1] = new_elem_position_vector[1];
 	elem_position_vector[2] = new_elem_position_vector[2];
 	rotation_matrix = get_y_rotation_matrix(angle->y);
-	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+	ft_matrix_x_vector_double(matrix_size.rows, matrix_size.columns, rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position_vector[0] = new_elem_position_vector[0];
 	elem_position_vector[1] = new_elem_position_vector[1];
 	elem_position_vector[2] = new_elem_position_vector[2];
 	rotation_matrix = get_x_rotation_matrix(angle->x);
-	matrix_vector_multiply(rotation_matrix, elem_position_vector,
+	ft_matrix_x_vector_double(matrix_size.rows, matrix_size.columns, rotation_matrix, elem_position_vector,
 													new_elem_position_vector);
 	elem_position->x = (int)(new_elem_position_vector[0] + 0.5);
 	elem_position->y = (int)(new_elem_position_vector[1] + 0.5);

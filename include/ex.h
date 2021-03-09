@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/17 10:30:23 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/08 23:33:23 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/09 13:31:25 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,12 @@ typedef struct	s_cmd_args
 	int			elem_side_len;
 }				t_cmd_args;
 
+typedef struct	s_matrix_size
+{
+	int			rows;
+	int			columns;
+}				t_matrix_size;
+
 typedef struct	s_xy_values
 {
 	int			x;
@@ -62,6 +68,13 @@ typedef struct	s_position
 	int			y;
 	int			z;
 }				t_position;
+
+typedef struct	s_position_new
+{
+	double		x;
+	double		y;
+	double		z;
+}				t_position_new;
 
 typedef struct	s_input
 {
