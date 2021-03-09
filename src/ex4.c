@@ -6,7 +6,7 @@
 /*   By: jkauppi <jkauppi@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/01/18 04:03:20 by jkauppi           #+#    #+#             */
-/*   Updated: 2021/03/09 13:24:14 by jkauppi          ###   ########.fr       */
+/*   Updated: 2021/03/09 14:21:48 by jkauppi          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static t_element	***create_element_map(t_mlx_win *mlx_win, t_map *map)
 	set_position(&elem_size, 25, 25, 25);
 	element_map = (t_element ***)ft_memalloc(sizeof(*element_map) *
 													map->map_size->y);
-	return (element_map);
 	i = -1;
 	elem_start_position = mlx_win->first_elem_start_position;
 	while (++i < map->map_size->y)
